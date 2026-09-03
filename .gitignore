@@ -1,0 +1,10 @@
+node_modules
+.next
+out
+next-env.d.ts
+.DS_Store
+*.tsbuildinfo
+
+# рабочие материалы заказчика — не для публичного репозитория
+Биокат/
+claude.md

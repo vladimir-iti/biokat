@@ -1,0 +1,528 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------
+   Дизайн-система «Биокат»
+   Палитра взята из логотипа (тил #0F7A8E), остальное построено
+   вокруг него: холодный лист схемы, графит корпуса щита, янтарь
+   сигнальной индикации.
+   --------------------------------------------------------------- */
+
+@theme {
+  --color-ink: #0e1a1f;
+  --color-steel: #5a6b72;
+  --color-line: #dce3e5;
+  --color-paper: #f2f4f4;
+  --color-panel: #ffffff;
+  --color-teal: #0f7a8e;
+  --color-teal-deep: #0a5566;
+  --color-signal: #e8b33a;
+  --color-alert: #c4453a;
+
+  --font-display: var(--font-unbounded), 'Trebuchet MS', system-ui, sans-serif;
+  --font-sans: var(--font-golos), system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --radius-card: 2px;
+
+  --container-site: 1320px;
+
+  /* Шаг шины: расстояние от левого края контента до вертикали */
+  --bus-offset: 88px;
+
+  /* Высота рамки названия блока. От неё считаются положение узла
+     и точка входа горизонтальной линии. */
+  --bus-box-h: 31px;
+
+  /* Отступ вертикали знака от его левого края. На эту величину логотип
+     сдвигается влево, чтобы его линия легла точно на линию шины. */
+  --logo-line-inset: 15px;
+
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+  box-sizing: border-box;
+  }
+
+  html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  }
+
+  body {
+  margin: 0;
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem; /* 17px */
+  line-height: 1.65;
+  font-feature-settings: 'ss01';
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+  margin: 0;
+  text-wrap: balance;
+  }
+
+  p {
+  margin: 0;
+  text-wrap: pretty;
+  }
+
+  a {
+  color: inherit;
+  text-decoration: none;
+  }
+
+  img,
+  picture,
+  svg {
+  display: block;
+  max-width: 100%;
+  }
+
+  table {
+  border-collapse: collapse;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+  font: inherit;
+  color: inherit;
+  }
+
+  /* Единая видимая фокусировка — снимать её нельзя нигде */
+  :focus-visible {
+  outline: 2px solid var(--color-teal);
+  outline-offset: 3px;
+  border-radius: 2px;
+  }
+
+  ::selection {
+  background: color-mix(in srgb, var(--color-teal) 22%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+/* Типографические роли дизайн-системы. @utility, а не @layer components,
+   чтобы роли работали с вариантами (file:, hover: и прочими). */
+/* t-display */
+@utility t-display {
+  hyphens: auto;
+  overflow-wrap: break-word;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.125rem, 1.15rem + 4.2vw, 5.25rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+
+/* Заголовок внутренней страницы: тот же строй, меньше верхняя граница */
+@utility t-h1 {
+  hyphens: auto;
+  overflow-wrap: break-word;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.9rem, 1.2rem + 3vw, 4rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+/* t-h2 */
+@utility t-h2 {
+  hyphens: auto;
+  overflow-wrap: break-word;
+  font-weight: 600;
+  font-size: clamp(2rem, 1.4rem + 2vw, 3rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+/* t-h3 */
+@utility t-h3 {
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+/* t-h4 */
+@utility t-h4 {
+  font-weight: 600;
+  font-size: 1.125rem;
+  line-height: 1.3;
+}
+
+/* t-lead */
+@utility t-lead {
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+
+/* t-small */
+@utility t-small {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+/* t-label */
+@utility t-label {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* t-label-sm */
+@utility t-label-sm {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* t-micro */
+@utility t-micro {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+/* t-data */
+@utility t-data {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  }
+
+@layer components {
+  /* Мера абзаца */
+  .measure {
+  max-width: 68ch;
+  }
+}
+
+/* Прочерчивание hairline-подчёркивания у текстовых ссылок */
+@layer utilities {
+  .link-draw {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 1px;
+  padding-bottom: 6px;
+  transition: background-size 240ms var(--ease-out-soft);
+  }
+
+  .link-draw:hover,
+  .link-draw:focus-visible {
+  background-size: 100% 1px;
+  }
+
+  .tnum {
+  font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Последовательность появления первого экрана */
+@layer utilities {
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .rise {
+  animation: rise 0.7s var(--ease-out-soft) both;
+  }
+
+}
+
+/* Появление секций. Скрываем только при работающем JS —
+   иначе страница без скриптов осталась бы пустой. */
+@layer components {
+  .reveal {
+  transition:
+      opacity 500ms var(--ease-out-soft),
+      transform 500ms var(--ease-out-soft);
+  }
+
+  [data-js='on'] .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  }
+
+  [data-js='on'] .reveal[data-shown='true'] {
+  opacity: 1;
+  transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-js='on'] .reveal {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* Шапка страницы уже задаёт нижний отступ — следующая секция
+   не должна складывать с ним полный шаг ритма.
+   Правило вне слоёв: иначе его перебьют утилиты py-* из слоя utilities. */
+[data-page-hero] + section {
+  padding-top: 4rem;
+}
+
+@media (min-width: 768px) {
+  [data-page-hero] + section {
+    padding-top: 5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  [data-page-hero] + section {
+    padding-top: 6rem;
+  }
+}
+
+/* Реестр договоров: на узких экранах таблица разворачивается в строки-карточки,
+   иначе её пришлось бы листать вбок. Правило вне слоёв — перебивает утилиты. */
+@media (max-width: 767px) {
+  .table-cards,
+  .table-cards tbody,
+  .table-cards tr,
+  .table-cards td {
+    display: block;
+    width: auto;
+  }
+
+  .table-cards thead {
+    display: none;
+  }
+
+  .table-cards tr {
+    padding: 1rem 0;
+  }
+
+  .table-cards td {
+    padding: 0.125rem 0;
+    max-width: none;
+    text-align: left;
+  }
+
+  .table-cards td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 0.125rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-steel);
+  }
+
+  /* Номер договора и сумма — в одну строку с подписью, они короткие */
+  .table-cards td[data-label='№'],
+  .table-cards td[data-label='Сумма'] {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .table-cards td[data-label='№']::before,
+  .table-cards td[data-label='Сумма']::before {
+    margin-bottom: 0;
+  }
+}
+
+/* Шина. Высоты обоих отрезков и масштаб нижнего выставляет BusRail. */
+.bus-up {
+  height: 0;
+}
+
+.bus-down {
+  height: 0;
+  transform: scaleY(0);
+  will-change: transform;
+}
+
+/* Узел, линия до рамки, обводка названия блока и цвет метки.
+   Состоянием всей связки управляет data-live на строке блока: ток доходит
+   до узла, уходит вправо, обходит название с двух сторон, замыкается —
+   и метка перекрашивается в цвет тока. */
+
+.bus-node {
+  background-color: var(--color-line);
+  transition: background-color 240ms var(--ease-out-soft);
+}
+
+.bus-tap {
+  transform: scaleX(0);
+  transition: transform 320ms var(--ease-out-soft);
+}
+
+.bus-box {
+  height: var(--bus-box-h);
+}
+
+.bus-outline rect,
+.bus-outline path {
+  fill: none;
+  stroke-width: 1;
+}
+
+/* Обесточенная рамка нарисована всегда */
+.bus-outline-idle {
+  stroke: currentColor;
+  opacity: 0.2;
+}
+
+.bus-outline-live {
+  stroke: var(--color-teal);
+  stroke-dasharray: calc(var(--bus-outline-length) * 1px);
+  stroke-dashoffset: calc(var(--bus-outline-length) * 1px);
+  transition: stroke-dashoffset 420ms linear;
+}
+
+.bus-label-text {
+  color: var(--bus-label-idle, var(--color-steel));
+  transition: color 240ms var(--ease-out-soft) 720ms;
+}
+
+[data-bus-row][data-live='true'] .bus-node {
+  background-color: var(--color-teal);
+}
+
+[data-bus-row][data-live='true'] .bus-tap {
+  transform: scaleX(1);
+}
+
+[data-bus-row][data-live='true'] .bus-outline-live {
+  stroke-dashoffset: 0;
+  transition-delay: 300ms;
+}
+
+[data-bus-row][data-live='true'] .bus-label-text {
+  color: var(--color-teal);
+}
+
+/* Первый блок страницы запитан сразу, без проявления и мерцания */
+[data-bus-row][data-static='true'] .bus-node,
+[data-bus-row][data-static='true'] .bus-tap,
+[data-bus-row][data-static='true'] .bus-outline-live {
+  transition: none;
+}
+
+[data-bus-row][data-static='true'] .bus-label-text {
+  transition: none;
+  color: var(--color-teal);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bus-tap,
+  [data-bus-row][data-live='true'] .bus-tap {
+    transform: scaleX(1);
+  }
+
+  [data-bus-row][data-live='true'] .bus-label-text {
+    transition: none;
+  }
+}
+
+/* Продолжение шины в подвале и неоновая вывеска.
+   Ток доходит до знака — и БИОКАТ коротко, вразнобой мигает,
+   после чего остаётся цветом логотипа. */
+.bus-foot {
+  transform: scaleY(0);
+  will-change: transform;
+}
+
+.bus-wordmark {
+  color: var(--bus-wordmark-idle, currentColor);
+}
+
+/* Кульминация: ток дошёл до знака — обе вывески загораются разом */
+[data-bus-lit='true'] .bus-wordmark {
+  animation: bus-neon 1150ms steps(1, end) both;
+}
+
+/* Ритм рваный: короткие вспышки, разные паузы, розжиг на последней */
+@keyframes bus-neon {
+  0%,
+  7% {
+    color: var(--bus-wordmark-idle);
+  }
+  8%,
+  12% {
+    color: var(--color-teal);
+  }
+  13%,
+  19% {
+    color: var(--bus-wordmark-idle);
+  }
+  20%,
+  23% {
+    color: var(--color-teal);
+  }
+  24%,
+  39% {
+    color: var(--bus-wordmark-idle);
+  }
+  40%,
+  47% {
+    color: var(--color-teal);
+  }
+  48%,
+  53% {
+    color: var(--bus-wordmark-idle);
+  }
+  54%,
+  59% {
+    color: var(--color-teal);
+  }
+  60%,
+  71% {
+    color: var(--bus-wordmark-idle);
+  }
+  72%,
+  100% {
+    color: var(--color-teal);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-bus-lit='true'] .bus-wordmark {
+    animation: none;
+    color: var(--color-teal);
+  }
+}
