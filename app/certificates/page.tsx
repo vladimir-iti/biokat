@@ -123,7 +123,7 @@ export default function CertificatesPage() {
                 ))}
               </dl>
               {document.note && (
-                <p className="mt-6 border-l-2 border-signal pl-4 t-micro leading-relaxed text-steel">
+                <p className="mt-6 border-l-2 border-teal pl-4 t-micro leading-relaxed text-steel">
                   {document.note}
                 </p>
               )}

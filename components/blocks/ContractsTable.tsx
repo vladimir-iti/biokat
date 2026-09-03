@@ -106,7 +106,7 @@ export function ContractsTable({ contracts }: { contracts: Contract[] }) {
               <td data-label="Заказчик" className="py-4 pr-4 font-medium">{contract.client}</td>
               <td data-label="Годы" className="py-4 pr-4 font-mono t-micro whitespace-nowrap">
                 {contract.status === 'active' ? (
-                  <span className="text-signal">в работе</span>
+                  <span className="text-teal">в работе</span>
                 ) : (
                   yearRange(contract.signed, contract.finished)
                 )}

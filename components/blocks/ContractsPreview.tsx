@@ -42,7 +42,7 @@ export function ContractsPreview() {
                 </td>
                 <td data-label="Годы" className="py-4 pr-4 font-mono t-micro whitespace-nowrap">
                   {contract.status === 'active' ? (
-                    <span className="text-signal">в работе</span>
+                    <span className="text-teal">в работе</span>
                   ) : (
                     contract.finished.slice(-4)
                   )}

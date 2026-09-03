@@ -68,7 +68,7 @@ export default function ExperiencePage() {
                 <dt className="t-small mt-3 text-steel">млн ₽ общая сумма</dt>
               </div>
               <div className="bg-panel p-6">
-                <dd className="t-data text-signal">{activeContracts.length}</dd>
+                <dd className="t-data text-teal">{activeContracts.length}</dd>
                 <dt className="t-small mt-3 text-steel">
                   {plural(activeContracts.length, ['договор', 'договора', 'договоров'])} в
                   работе прямо сейчас
