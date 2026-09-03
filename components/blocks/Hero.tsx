@@ -6,7 +6,7 @@ import { company } from '@/content/company';
 
 export function Hero() {
   return (
-    <section className="overflow-hidden bg-paper pb-20 pt-14 md:pb-28 md:pt-20 lg:pb-36 lg:pt-24">
+    <section className="overflow-hidden bg-paper hero-pt pb-20 md:pb-28 lg:pb-36">
       <Container>
         <div
           data-bus-row

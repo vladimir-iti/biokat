@@ -35,21 +35,30 @@ export function PageHero({
             <>
               <div className="hidden lg:block" aria-hidden="true" />
               <nav aria-label="Хлебные крошки" className="rise mb-6">
-                <ol className="flex flex-wrap items-center gap-2 t-label-sm text-steel">
-                  <li>
+                {/* Крошки держим в одну строку: со второй строки метка блока
+                    уехала бы вниз и перестала совпадать с другими страницами.
+                    Название текущей страницы дублирует заголовок ниже, поэтому
+                    его не жалко подрезать. */}
+                <ol className="flex min-w-0 items-center gap-2 t-label-sm text-steel">
+                  <li className="shrink-0">
                     <Link href="/" className="transition-colors hover:text-teal">
                       Главная
                     </Link>
                   </li>
                   {crumbs.map((crumb) => (
                     <li key={crumb.title} className="flex min-w-0 items-center gap-2">
-                      <span aria-hidden="true">/</span>
+                      <span aria-hidden="true" className="shrink-0">
+                        /
+                      </span>
                       {crumb.href ? (
-                        <Link href={crumb.href} className="transition-colors hover:text-teal">
+                        <Link
+                          href={crumb.href}
+                          className="shrink-0 whitespace-nowrap transition-colors hover:text-teal"
+                        >
                           {crumb.title}
                         </Link>
                       ) : (
-                        <span className="text-ink">{crumb.title}</span>
+                        <span className="truncate text-ink">{crumb.title}</span>
                       )}
                     </li>
                   ))}

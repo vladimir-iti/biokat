@@ -7,7 +7,7 @@ import { services } from '@/content/services';
 
 export default function NotFound() {
   return (
-    <section className="py-28 md:py-40">
+    <section className="hero-pt pb-28 md:pb-40">
       <Container>
         <div
           data-bus-row
