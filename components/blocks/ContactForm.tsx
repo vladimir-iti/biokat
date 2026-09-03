@@ -1,9 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { ActionButton } from '@/components/ui/Button';
 import { cn } from '@/lib/cn';
+import {
+  caretAfterDigits,
+  formatPhone,
+  isPhoneComplete,
+  phoneDigits,
+} from '@/lib/phone';
 
 type Status = 'idle' | 'sending' | 'success' | 'error';
 
@@ -48,10 +54,44 @@ export function ContactForm({
   phoneHref: string;
 }) {
   const [status, setStatus] = useState<Status>('idle');
+  const [phoneValue, setPhoneValue] = useState('');
+  const phoneRef = useRef<HTMLInputElement>(null);
+  const caretRef = useRef<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const openedAt = useRef(Date.now());
 
   const isSpec = variant === 'spec';
+
+  // Каретку ставим после перерисовки: маска меняет длину строки,
+  // и без этого курсор улетал бы в конец при правке середины номера
+  useLayoutEffect(() => {
+    const input = phoneRef.current;
+    if (!input || caretRef.current === null) return;
+    input.setSelectionRange(caretRef.current, caretRef.current);
+    caretRef.current = null;
+  }, [phoneValue]);
+
+  const onPhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const input = event.currentTarget;
+    const caret = input.selectionStart ?? input.value.length;
+    let head = input.value.slice(0, caret);
+    const tail = input.value.slice(caret);
+
+    // Backspace на разделителе не убирает ни одной цифры: стираем ту,
+    // что стоит перед ним, иначе клавиша срабатывала бы вхолостую
+    const deleting =
+      (event.nativeEvent as InputEvent).inputType === 'deleteContentBackward';
+    if (deleting && phoneDigits(head + tail).length === phoneDigits(phoneValue).length) {
+      head = head.replace(/\d(?=\D*$)/, '');
+    }
+
+    const next = formatPhone(head + tail);
+    caretRef.current = caretAfterDigits(next, phoneDigits(head).length);
+    setPhoneValue(next);
+    input.setCustomValidity(
+      next === '' || isPhoneComplete(next) ? '' : 'Введите номер полностью: +7 и 10 цифр',
+    );
+  };
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -81,6 +121,7 @@ export function ContactForm({
       }
       setStatus('success');
       form.reset();
+      setPhoneValue('');
     } catch (cause) {
       setStatus('error');
       setError(
@@ -148,6 +189,10 @@ export function ContactForm({
             required
             autoComplete="tel"
             inputMode="tel"
+            maxLength={18}
+            value={phoneValue}
+            onChange={onPhoneChange}
+            ref={phoneRef}
             className={inputClass}
             placeholder="+7 (___) ___-__-__"
           />
