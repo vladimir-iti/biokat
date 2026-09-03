@@ -55,7 +55,7 @@ export default function AboutPage() {
         tone="panel"
         label="Модель"
         title="Инженерный костяк в штате, руки — под задачу"
-        lead="Пятеро специалистов верхнего уровня закрывают всю ответственность за объект. Монтаж ведут проверенные бригады по подряду: от одной бригады до 85 человек в смену, в зависимости от графика."
+        lead="Специалисты верхнего уровня закрывают всю ответственность за объект. Монтаж ведут проверенные бригады по подряду: от одной бригады до 85 человек в смену, в зависимости от графика."
       >
         <div className="grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
           {team.map((member, index) => (
@@ -66,12 +66,14 @@ export default function AboutPage() {
               </article>
             </Reveal>
           ))}
-          <div className="bg-panel p-6">
-            <h3 className="t-h4">Бригадный подряд</h3>
-            <p className="t-small mt-3 text-steel">
-              База прорабов наработана за годы. Людей не учим на объекте.
-            </p>
-          </div>
+          <Reveal delay={team.length * 50} className="h-full">
+            <article className="h-full bg-panel p-6">
+              <h3 className="t-h4 text-teal">Бригадный подряд</h3>
+              <p className="t-small mt-3 text-steel">
+                База прорабов наработана за годы. Людей не учим на объекте.
+              </p>
+            </article>
+          </Reveal>
         </div>
       </Section>
 
