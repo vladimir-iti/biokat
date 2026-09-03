@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { company } from '@/content/company';
+import { absolute } from '@/lib/asset';
 
 const SITE = 'ГК «Биокат»';
 
@@ -20,7 +21,7 @@ export function buildMetadata({
   ogImage = '/og/default.png',
 }: BuildMetadataArgs): Metadata {
   const fullTitle = bare ? title : `${title} — ${SITE}`;
-  const url = `${company.origin}${path}`;
+  const url = absolute(path);
   return {
     title: fullTitle,
     description,
@@ -32,12 +33,13 @@ export function buildMetadata({
       title: fullTitle,
       description,
       url,
-      images: [{ url: `${company.origin}${ogImage}`, width: 1200, height: 630 }],
+      images: [{ url: absolute(ogImage), width: 1200, height: 630 }],
     },
     twitter: {
       card: 'summary_large_image',
       title: fullTitle,
       description,
+      images: [absolute(ogImage)],
     },
   };
 }

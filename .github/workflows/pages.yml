@@ -32,6 +32,9 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+          # Чтобы превью ссылки в мессенджерах брали картинку отсюда,
+          # а не с ещё не запущенного домена
+          NEXT_PUBLIC_SITE_ORIGIN: https://${{ github.repository_owner }}.github.io
 
       - uses: actions/configure-pages@v5
 

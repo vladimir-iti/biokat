@@ -160,18 +160,63 @@ async function buildDocuments() {
   }
 }
 
+/**
+ * Растровые иконки. Исходник один — app/icon.svg; отсюда получаются
+ * apple-icon для iOS и favicon.ico для старых браузеров и поисковиков,
+ * которые до сих пор просят именно .ico.
+ */
+async function buildIcons() {
+  const app = path.join(ROOT, 'app');
+  const source = await readFile(path.join(app, 'icon.svg'));
+
+  await sharp(source).resize(180, 180).png().toFile(path.join(app, 'apple-icon.png'));
+
+  const png = await sharp(source).resize(32, 32).png().toBuffer();
+  // ICO — это контейнер: заголовок, одна запись каталога и сам PNG внутри
+  const header = Buffer.alloc(22);
+  header.writeUInt16LE(0, 0); // зарезервировано
+  header.writeUInt16LE(1, 2); // тип: иконка
+  header.writeUInt16LE(1, 4); // сколько изображений
+  header.writeUInt8(32, 6); // ширина
+  header.writeUInt8(32, 7); // высота
+  header.writeUInt8(0, 8); // палитра не используется
+  header.writeUInt8(0, 9); // зарезервировано
+  header.writeUInt16LE(1, 10); // плоскостей
+  header.writeUInt16LE(32, 12); // бит на пиксель
+  header.writeUInt32LE(png.length, 14);
+  header.writeUInt32LE(22, 18); // смещение данных
+  await writeFile(path.join(app, 'favicon.ico'), Buffer.concat([header, png]));
+
+  console.log('иконки  apple-icon, favicon.ico');
+}
+
 async function buildOg() {
   const dir = path.join(ROOT, 'public', 'og');
   await mkdir(dir, { recursive: true });
+
+  // Знак берём тем же контуром, что и в шапке сайта: в удвоенном масштабе
+  // его линии становятся ровно 2 px — как и шина на этой же картинке.
+  const MARK =
+    'M15 0h1v31h-1zM0 15h31v1H0zM12 12h7v7h-7zM13 0h5v1h-5zM13 30h5v1h-5zM0 13h1v5H0zM30 13h1v5h-1z';
+
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <rect width="1200" height="630" fill="${INK}"/>
-  <line x1="120" y1="0" x2="120" y2="630" stroke="${TEAL}" stroke-width="2" opacity="0.5"/>
-  <rect x="114" y="300" width="12" height="12" fill="${TEAL}"/>
-  <line x1="120" y1="306" x2="300" y2="306" stroke="${TEAL}" stroke-width="2"/>
-  <text x="120" y="250" font-family="Helvetica, Arial, sans-serif" font-size="86" font-weight="700" fill="${PAPER}" letter-spacing="-2">БИОКАТ</text>
-  <text x="120" y="400" font-family="ui-monospace, monospace" font-size="30" fill="${TEAL}" letter-spacing="4">ИНЖЕНЕРНЫЕ СИСТЕМЫ ОБЪЕКТОВ</text>
-  <text x="120" y="560" font-family="Helvetica, Arial, sans-serif" font-size="28" fill="${PAPER}" opacity="0.6">Электроснабжение · Пожарная безопасность · НКУ · Автоматика</text>
+
+  <line x1="120" y1="0" x2="120" y2="630" stroke="${TEAL}" stroke-width="2" opacity="0.35"/>
+
+  <g transform="translate(89 70) scale(2)"><path d="${MARK}" fill="${TEAL}"/></g>
+  <text x="175" y="104" font-family="Helvetica, Arial, sans-serif" font-size="52" font-weight="700" fill="${PAPER}" letter-spacing="-1">БИОКАТ</text>
+  <text x="177" y="136" font-family="ui-monospace, monospace" font-size="18" fill="${PAPER}" opacity="0.55" letter-spacing="4">ИНЖЕНЕРНЫЕ СИСТЕМЫ</text>
+  <text x="1080" y="104" text-anchor="end" font-family="ui-monospace, monospace" font-size="24" fill="${TEAL}" letter-spacing="2">биокат.рф</text>
+
+  <text x="120" y="336" font-family="Helvetica, Arial, sans-serif" font-size="76" font-weight="700" fill="${PAPER}" letter-spacing="-2">Инженерная часть</text>
+  <text x="120" y="420" font-family="Helvetica, Arial, sans-serif" font-size="76" font-weight="700" letter-spacing="-2"><tspan fill="${PAPER}">объекта</tspan><tspan fill="${TEAL}" dx="22">целиком</tspan></text>
+
+  <rect x="114" y="514" width="12" height="12" fill="${TEAL}"/>
+  <line x1="120" y1="520" x2="1080" y2="520" stroke="${PAPER}" stroke-width="1" opacity="0.18"/>
+  <text x="120" y="566" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="${PAPER}" opacity="0.6">Электроснабжение · Пожарная безопасность · НКУ · Автоматика</text>
 </svg>`;
+
   await sharp(Buffer.from(svg)).png().toFile(path.join(dir, 'default.png'));
   await writeFile(path.join(dir, '.gitkeep'), '');
   console.log('og  default');
@@ -179,4 +224,5 @@ async function buildOg() {
 
 await buildProjects();
 await buildDocuments();
+await buildIcons();
 await buildOg();

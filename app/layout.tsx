@@ -4,6 +4,7 @@ import { BusRail } from '@/components/motion/BusRail';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { company } from '@/content/company';
+import { siteOrigin } from '@/lib/asset';
 import { mainNav } from '@/content/nav';
 import { services } from '@/content/services';
 import { organizationJsonLd } from '@/lib/seo';
@@ -31,7 +32,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(company.origin),
+  metadataBase: new URL(siteOrigin),
   title: {
     default: 'ГК «Биокат» — инженерные системы объектов',
     template: '%s',
