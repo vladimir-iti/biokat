@@ -20,14 +20,22 @@ export default function NotFound() {
           </div>
 
           <div>
-            <BusLabel className="mb-6">Ошибка 404</BusLabel>
-            <h1 className="t-display max-w-[14ch]">Страница не найдена</h1>
-            <p className="t-lead measure mt-8 text-steel">
+            <BusLabel className="rise mb-6">Ошибка 404</BusLabel>
+            <h1
+              className="t-display rise max-w-[14ch]"
+              style={{ animationDelay: '80ms' }}
+            >
+              Страница не найдена
+            </h1>
+            <p
+              className="t-lead measure rise mt-8 text-steel"
+              style={{ animationDelay: '200ms' }}
+            >
               Такого адреса на сайте нет. Возможно, страницу переименовали — начните
               с направлений или посмотрите объекты.
             </p>
 
-            <div className="mt-10 flex flex-wrap gap-4">
+            <div className="rise mt-10 flex flex-wrap gap-4" style={{ animationDelay: '320ms' }}>
               <Button href="/">На главную</Button>
               <Button href="/projects/" variant="secondary">
                 Объекты

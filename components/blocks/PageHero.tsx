@@ -34,7 +34,7 @@ export function PageHero({
           {crumbs.length > 0 && (
             <>
               <div className="hidden lg:block" aria-hidden="true" />
-              <nav aria-label="Хлебные крошки" className="mb-6">
+              <nav aria-label="Хлебные крошки" className="rise mb-6">
                 <ol className="flex flex-wrap items-center gap-2 t-label-sm text-steel">
                   <li>
                     <Link href="/" className="transition-colors hover:text-teal">
@@ -63,14 +63,38 @@ export function PageHero({
           </div>
 
           <div>
-            {label && <BusLabel className="mb-6">{label}</BusLabel>}
+            {/* Тот же вход, что и на главной: элементы поднимаются по очереди */}
+            {label && (
+              <BusLabel className="rise mb-6" style={{ animationDelay: '60ms' }}>
+                {label}
+              </BusLabel>
+            )}
 
             <div className="lg:flex lg:items-end lg:justify-between lg:gap-12">
               <div>
-                <h1 className="t-h1 max-w-[18ch]">{title}</h1>
-                {lead && <p className="t-lead measure mt-8 text-steel">{lead}</p>}
+                <h1
+                  className="t-h1 rise max-w-[18ch]"
+                  style={{ animationDelay: '140ms' }}
+                >
+                  {title}
+                </h1>
+                {lead && (
+                  <p
+                    className="t-lead measure rise mt-8 text-steel"
+                    style={{ animationDelay: '260ms' }}
+                  >
+                    {lead}
+                  </p>
+                )}
               </div>
-              {aside && <div className="mt-10 shrink-0 lg:mt-0">{aside}</div>}
+              {aside && (
+                <div
+                  className="rise mt-10 shrink-0 lg:mt-0"
+                  style={{ animationDelay: '380ms' }}
+                >
+                  {aside}
+                </div>
+              )}
             </div>
           </div>
         </div>

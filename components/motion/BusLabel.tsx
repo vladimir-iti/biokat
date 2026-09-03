@@ -21,9 +21,11 @@ const INSET = 0.5;
 export function BusLabel({
   children,
   className,
+  style,
 }: {
   children: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
 }) {
   const boxRef = useRef<HTMLSpanElement>(null);
   const [width, setWidth] = useState(0);
@@ -49,6 +51,7 @@ export function BusLabel({
   return (
     <span
       ref={boxRef}
+      style={style}
       className={cn('bus-box relative flex w-fit items-center px-2.5', className)}
     >
       {w > 0 && (

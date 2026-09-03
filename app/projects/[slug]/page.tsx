@@ -78,7 +78,7 @@ export default async function ProjectPage({
             className="lg:grid lg:grid-cols-[var(--bus-offset)_minmax(0,1fr)]"
           >
             <div className="hidden lg:block" aria-hidden="true" />
-            <nav aria-label="Хлебные крошки" className="mb-6">
+            <nav aria-label="Хлебные крошки" className="rise mb-6">
               <ol className="flex flex-wrap items-center gap-2 t-label-sm text-steel">
                 <li>
                   <Link href="/" className="transition-colors hover:text-teal">Главная</Link>
@@ -101,17 +101,26 @@ export default async function ProjectPage({
             </div>
 
             <div>
-              <BusLabel className="mb-6">
+              {/* Тот же вход, что и на главной */}
+              <BusLabel className="rise mb-6" style={{ animationDelay: '60ms' }}>
                 {typeTitle}
                 {project.years !== '—' && ` · ${project.years}`}
               </BusLabel>
 
-              <h1 className="t-h1">
+              <h1 className="t-h1 rise" style={{ animationDelay: '140ms' }}>
                 {project.title}
               </h1>
-              <p className="t-lead mt-8 text-steel">{project.address}</p>
+              <p
+                className="t-lead rise mt-8 text-steel"
+                style={{ animationDelay: '260ms' }}
+              >
+                {project.address}
+              </p>
 
-              <div className="mt-12 grid gap-10 lg:grid-cols-[1.6fr_1fr] lg:gap-16">
+              <div
+                className="rise mt-12 grid gap-10 lg:grid-cols-[1.6fr_1fr] lg:gap-16"
+                style={{ animationDelay: '380ms' }}
+              >
                 <div className="self-start overflow-hidden rounded-[2px] border border-line">
                   <Picture
                     base={`/images/projects/${project.slug}`}
