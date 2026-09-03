@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { LogoMark } from '@/components/layout/Logo';
+import { AddressLink } from '@/components/ui/AddressLink';
 import { Container } from '@/components/ui/Container';
 import { company } from '@/content/company';
 import { asset } from '@/lib/asset';
@@ -88,7 +89,11 @@ export function Footer() {
               {company.hours}
             </p>
             <p className="mt-4 t-small leading-relaxed text-paper/55">
-              {company.addressLegal}
+              <AddressLink
+                address={company.addressLegal}
+                street={company.addressLegalStreet}
+                map={company.addressLegalMap}
+              />
             </p>
 
             <ul className="mt-6 space-y-2">

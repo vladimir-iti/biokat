@@ -1,4 +1,5 @@
 import { ContactForm } from '@/components/blocks/ContactForm';
+import { AddressLink } from '@/components/ui/AddressLink';
 import { Section } from '@/components/ui/Section';
 import { company } from '@/content/company';
 
@@ -36,11 +37,23 @@ export function CtaBlock({
             </div>
             <div>
               <dt className="t-label text-paper/40">Офис</dt>
-              <dd className="mt-2 text-paper/80">{company.addressLegal}</dd>
+              <dd className="mt-2 text-paper/80">
+                <AddressLink
+                  address={company.addressLegal}
+                  street={company.addressLegalStreet}
+                  map={company.addressLegalMap}
+                />
+              </dd>
             </div>
             <div>
               <dt className="t-label text-paper/40">Производство</dt>
-              <dd className="mt-2 text-paper/80">{company.addressProduction}</dd>
+              <dd className="mt-2 text-paper/80">
+                <AddressLink
+                  address={company.addressProduction}
+                  street={company.addressProductionStreet}
+                  map={company.addressProductionMap}
+                />
+              </dd>
             </div>
           </dl>
         </div>

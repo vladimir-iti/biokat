@@ -12,8 +12,18 @@ export const company = {
   origin: 'https://xn--80abvit0a.xn--p1ai',
   addressLegal:
     '117624, Москва, вн. тер. г. Муниципальный округ Южное Бутово, ул. Скобелевская, д. 22',
+  addressLegalStreet: 'ул. Скобелевская, д. 22',
+  addressLegalMap:
+    'https://yandex.ru/maps/?text=' +
+    encodeURIComponent('Москва, улица Скобелевская, 22'),
   addressProduction:
     '141051, Московская обл., Мытищинский р-н, д. Капустино, Дмитровское ш., д. 36',
+  addressProductionStreet: 'Дмитровское ш., д. 36',
+  addressProductionMap:
+    'https://yandex.ru/maps/?text=' +
+    encodeURIComponent(
+      'Московская область, Мытищинский район, деревня Капустино, Дмитровское шоссе, 36',
+    ),
   requisites: [
     { label: 'Полное наименование', value: 'Общество с ограниченной ответственностью «Группа Компаний «БИОКАТ»' },
     { label: 'Сокращённое наименование', value: 'ООО «ГК «БИОКАТ»' },

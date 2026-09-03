@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { ContactForm } from '@/components/blocks/ContactForm';
 import { PageHero } from '@/components/blocks/PageHero';
+import { Reveal } from '@/components/motion/Reveal';
+import { AddressLink } from '@/components/ui/AddressLink';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { company } from '@/content/company';
@@ -15,9 +17,24 @@ export const metadata: Metadata = buildMetadata({
   path: '/contacts/',
 });
 
-const mapUrl = `https://yandex.ru/map-widget/v1/?text=${encodeURIComponent(
-  'Москва, улица Скобелевская, 22',
-)}&z=16`;
+const brief = [
+  {
+    title: 'Объект и задача',
+    text: 'Что за здание, какие системы нужны, новое строительство или реконструкция действующего.',
+  },
+  {
+    title: 'Проект или схема',
+    text: 'Рабочая документация, однолинейная схема, планировки. Проекта нет — посчитаем от задачи.',
+  },
+  {
+    title: 'Сроки',
+    text: 'Когда выходить на площадку и к какой дате сдавать. От этого зависит, сколько бригад ставим.',
+  },
+  {
+    title: 'Формат договора',
+    text: 'Прямой договор, субподряд или конкурсная процедура. Скажите, если нужен пакет для тендера.',
+  },
+];
 
 export default function ContactsPage() {
   return (
@@ -66,11 +83,23 @@ export default function ContactsPage() {
                   </div>
                   <div className="py-4">
                     <dt className="t-label text-steel">Офис и юридический адрес</dt>
-                    <dd className="mt-2">{company.addressLegal}</dd>
+                    <dd className="mt-2">
+                      <AddressLink
+                        address={company.addressLegal}
+                        street={company.addressLegalStreet}
+                        map={company.addressLegalMap}
+                      />
+                    </dd>
                   </div>
                   <div className="py-4">
                     <dt className="t-label text-steel">Производство</dt>
-                    <dd className="mt-2">{company.addressProduction}</dd>
+                    <dd className="mt-2">
+                      <AddressLink
+                        address={company.addressProduction}
+                        street={company.addressProductionStreet}
+                        map={company.addressProductionMap}
+                      />
+                    </dd>
                   </div>
                 </dl>
 
@@ -94,29 +123,23 @@ export default function ContactsPage() {
         </Container>
       </section>
 
-      <section className="border-y border-line bg-panel">
-        <iframe
-          src={mapUrl}
-          title="Офис ГК «Биокат» на карте"
-          loading="lazy"
-          className="h-[420px] w-full border-0 grayscale-[0.15]"
-        />
-        <Container>
-          <p className="py-4 t-small text-steel">
-            {company.addressLegal} ·{' '}
-            <a
-              href={`https://yandex.ru/maps/?text=${encodeURIComponent(
-                'Москва, улица Скобелевская, 22',
-              )}`}
-              target="_blank"
-              rel="noreferrer"
-              className="link-draw font-medium text-teal"
-            >
-              Открыть в Яндекс.Картах
-            </a>
-          </p>
-        </Container>
-      </section>
+      <Section
+        tone="panel"
+        label="Перед запросом"
+        title="Что ускорит ответ"
+        lead="Ничего из этого не обязательно: если под рукой только адрес объекта — начнём с него. Но чем точнее вводные, тем содержательнее будет первый ответ и тем меньше уточняющих писем."
+      >
+        <div className="grid gap-px border border-line bg-line sm:grid-cols-2">
+          {brief.map((item, index) => (
+            <Reveal key={item.title} delay={index * 50} className="h-full">
+              <article className="h-full bg-paper p-6">
+                <h3 className="t-h4 text-teal">{item.title}</h3>
+                <p className="t-small mt-3 text-steel">{item.text}</p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
 
       <Section label="Реквизиты" title="Для договора и проверки контрагента">
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
