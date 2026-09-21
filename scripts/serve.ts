@@ -67,13 +67,18 @@ const server = http.createServer(async (req, res) => {
   }
 
   const ext = path.extname(file).toLowerCase();
-  const immutable = file.includes(`${path.sep}_next${path.sep}static${path.sep}`);
+  // Те же три режима, что в public/.htaccess: вечный кэш только у файлов
+  // с хэшем в имени, картинкам — неделя, остальному — перепроверка
+  const hashed = file.includes(`${path.sep}_next${path.sep}static${path.sep}`);
+  const image = ['.avif', '.webp', '.jpg', '.png', '.svg', '.ico'].includes(ext);
 
   res.writeHead(200, {
     'Content-Type': TYPES[ext] ?? 'application/octet-stream',
-    'Cache-Control': immutable
+    'Cache-Control': hashed
       ? 'public, max-age=31536000, immutable'
-      : 'public, max-age=0, must-revalidate',
+      : image
+        ? 'public, max-age=604800, stale-while-revalidate=86400'
+        : 'public, max-age=0, must-revalidate',
     'X-Content-Type-Options': 'nosniff',
   });
   createReadStream(file).pipe(res);

@@ -78,13 +78,15 @@ if ((int) ($_POST['elapsed'] ?? 0) < MIN_ELAPSED_SECONDS) {
     fail('Форма заполнена слишком быстро');
 }
 
-// Ограничение частоты по IP
+// Ограничение частоты по IP. Метка ставится только после успешной отправки
+// (см. конец файла): иначе заявка, отклонённая по незаполненному полю,
+// запирала бы форму на полминуты ровно в тот момент, когда человек
+// исправляет ошибку и жмёт «Отправить» второй раз.
 $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 $stamp = sys_get_temp_dir() . '/biokat_' . md5($ip);
 if (is_file($stamp) && (time() - (int) filemtime($stamp)) < RATE_LIMIT_SECONDS) {
     fail('Слишком часто. Подождите полминуты', 429);
 }
-@touch($stamp);
 
 // --- Поля -------------------------------------------------------------------
 
@@ -130,8 +132,12 @@ if (!empty($_FILES['file']['name']) && ($_FILES['file']['error'] ?? UPLOAD_ERR_N
         fail('Файл не прочитался', 500);
     }
 
+    // \s в классе символов пропускал бы перевод строки, а имя файла попадает
+    // в заголовки MIME-части — там перенос строки означает новый заголовок
+    $safeName = preg_replace('/[^\w .\-()]+/u', '_', $original);
+
     $attachment = [
-        'name' => preg_replace('/[^\w\s.\-()]+/u', '_', $original) ?: "spec.$extension",
+        'name' => $safeName !== null && $safeName !== '' ? $safeName : "spec.$extension",
         'content' => $content,
     ];
 }
@@ -204,5 +210,7 @@ if (!$sent) {
 if (!$sent) {
     fail('Письмо не ушло. Позвоните нам, пожалуйста', 502);
 }
+
+@touch($stamp);
 
 echo json_encode(['ok' => true], JSON_UNESCAPED_UNICODE);

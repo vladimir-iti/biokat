@@ -28,9 +28,16 @@ ErrorDocument 404 /404.html
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set X-Frame-Options "SAMEORIGIN"
 
-  # Хэшированные ассеты Next не меняются никогда
-  <FilesMatch "\.(js|css|woff2|avif|webp|jpg|png|svg)$">
+  # Вечный кэш — только там, где имя файла содержит хэш сборки.
+  # У картинок из public/ имя постоянное: заменённое фото обязано доехать
+  # до вернувшегося посетителя, поэтому им отдельное, короткое правило.
+  <FilesMatch "\.(js|css|woff2)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Изображения и иконки: неделя с перепроверкой
+  <FilesMatch "\.(avif|webp|jpg|jpeg|png|svg|ico)$">
+    Header set Cache-Control "public, max-age=604800, stale-while-revalidate=86400"
   </FilesMatch>
 
   # HTML должен обновляться сразу после деплоя
