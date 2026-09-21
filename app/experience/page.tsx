@@ -2,14 +2,17 @@ import type { Metadata } from 'next';
 import { ContractsTable } from '@/components/blocks/ContractsTable';
 import { CtaBlock } from '@/components/blocks/CtaBlock';
 import { PageHero } from '@/components/blocks/PageHero';
-import { Button } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { downloads } from '@/content/documents';
+import { asset } from '@/lib/asset';
 import { formatMillions, plural } from '@/lib/format';
 import {
   activeContracts,
   contractsByDate,
+  doneContracts,
+  registryPeriod,
+  registrySpan,
   totalAmount,
   totalContracts,
 } from '@/lib/queries';
@@ -17,8 +20,7 @@ import { breadcrumbsJsonLd, buildMetadata } from '@/lib/seo';
 
 export const metadata: Metadata = buildMetadata({
   title: 'Реестр исполненных договоров',
-  description:
-    'Полный реестр договоров ООО «ГК «Биокат» с 2016 по 2025 год: заказчики, сроки, суммы. 26 договоров на 668,1 млн ₽.',
+  description: `Полный реестр договоров ООО «ГК «Биокат» ${registryPeriod}: заказчики, сроки, суммы. ${totalContracts} ${plural(totalContracts, ['договор', 'договора', 'договоров'])} на ${formatMillions(totalAmount)} млн ₽.`,
   path: '/experience/',
 });
 
@@ -37,15 +39,19 @@ export default function ExperiencePage() {
       />
 
       <PageHero
-        label="Договоры 2016–2025"
+        label={`Договоры ${registrySpan}`}
         title="Реестр исполненных договоров"
         lead="Данные из справки о компании, подписанной генеральным директором. Заказчики, сроки и суммы — как есть. Реестр открыт, потому что каждая строка проверяется."
         crumbs={[{ title: 'Опыт' }]}
         aside={
           registry && (
-            <Button href={registry.file} variant="secondary">
+            // Обычная ссылка, не next/link: это файл, а не маршрут
+            <a
+              href={asset(registry.file)}
+              className="group inline-flex h-13 items-center justify-center gap-3 rounded-[2px] border border-line px-8 font-semibold transition-colors duration-150 hover:border-teal hover:text-teal"
+            >
               Скачать PDF
-            </Button>
+            </a>
           )
         }
       />
@@ -59,8 +65,8 @@ export default function ExperiencePage() {
               <div className="bg-panel p-6">
                 <dd className="t-data">{totalContracts}</dd>
                 <dt className="t-small mt-3 text-steel">
-                  {plural(totalContracts, ['договор', 'договора', 'договоров'])} с 2016
-                  по 2025 год
+                  {plural(totalContracts, ['договор', 'договора', 'договоров'])}{' '}
+                  {registryPeriod}, из них {doneContracts.length} завершено
                 </dt>
               </div>
               <div className="bg-panel p-6">

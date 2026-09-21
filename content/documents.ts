@@ -1,3 +1,5 @@
+import { plural } from '@/lib/format';
+import { registryPeriod, totalContracts } from '@/lib/queries';
 import type { DocumentItem } from '@/lib/types';
 
 export const documents: DocumentItem[] = [
@@ -97,7 +99,7 @@ export const downloads = [
   {
     id: 'contracts-registry',
     title: 'Реестр исполненных договоров',
-    description: '26 договоров с 2016 по 2025 год',
+    description: `${totalContracts} ${plural(totalContracts, ['договор', 'договора', 'договоров'])} ${registryPeriod}`,
     file: '/documents/contracts-registry.pdf',
     format: 'PDF',
   },

@@ -7,6 +7,8 @@ import { company } from '@/content/company';
 import { siteOrigin } from '@/lib/asset';
 import { mainNav } from '@/content/nav';
 import { services } from '@/content/services';
+import { plural } from '@/lib/format';
+import { doneContracts } from '@/lib/queries';
 import { organizationJsonLd } from '@/lib/seo';
 import './globals.css';
 
@@ -37,8 +39,7 @@ export const metadata: Metadata = {
     default: 'ГК «Биокат» — инженерные системы объектов',
     template: '%s',
   },
-  description:
-    'Электроснабжение, пожарная безопасность, слаботочные системы, автоматизация и производство низковольтных шкафов. 26 исполненных договоров, лицензия МЧС бессрочно.',
+  description: `Электроснабжение, пожарная безопасность, слаботочные системы, автоматизация и производство низковольтных шкафов. ${doneContracts.length} исполненных ${plural(doneContracts.length, ['договор', 'договора', 'договоров'])}, лицензия МЧС бессрочно.`,
   applicationName: 'ГК «Биокат»',
   formatDetection: { telephone: true },
   // Превью на GitHub Pages не должно конкурировать с будущим сайтом в поиске

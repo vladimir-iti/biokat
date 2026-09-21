@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/Button';
 import { Section } from '@/components/ui/Section';
 import { contractObject, formatMillions, plural } from '@/lib/format';
-import { contractsByDate, totalAmount, totalContracts } from '@/lib/queries';
+import { contractsByDate, registryPeriod, totalAmount, totalContracts } from '@/lib/queries';
 
 export function ContractsPreview() {
   const rows = contractsByDate.slice(0, 5);
@@ -62,7 +62,7 @@ export function ContractsPreview() {
         <span className="font-mono font-medium text-ink">
           {formatMillions(totalAmount)} млн ₽
         </span>{' '}
-        с 2016 по 2025 год.
+        {registryPeriod}.
       </p>
     </Section>
   );

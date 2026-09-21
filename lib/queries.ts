@@ -1,6 +1,7 @@
 import { contracts } from '@/content/contracts';
 import { projects, projectBySlug } from '@/content/projects';
 import { services } from '@/content/services';
+import { yearOf } from '@/lib/format';
 import type { Contract, Project, ServiceSlug } from '@/lib/types';
 
 /** Все производные значения считаются здесь — на сборке, а не в браузере. */
@@ -11,6 +12,22 @@ export const totalContracts = contracts.length;
 export const totalAmount = contracts.reduce((sum, c) => sum + c.amount, 0);
 
 export const activeContracts = contracts.filter((c) => c.status === 'active');
+
+export const doneContracts = contracts.filter((c) => c.status === 'done');
+
+/**
+ * Годы, которые покрывает реестр. Считаются из самих договоров, иначе
+ * «с 2016 по 2025 год» в текстах пришлось бы править руками каждый январь.
+ */
+const registryYearValues = contracts.flatMap((c) =>
+  [yearOf(c.signed), yearOf(c.finished)].filter((y): y is number => y !== null),
+);
+export const registryFrom = Math.min(...registryYearValues);
+export const registryTo = Math.max(...registryYearValues);
+/** «2016–2025» — для меток и заголовков */
+export const registrySpan = `${registryFrom}–${registryTo}`;
+/** «с 2016 по 2025 год» — для текста в предложении */
+export const registryPeriod = `с ${registryFrom} по ${registryTo} год`;
 
 export const contractsByDate = [...contracts].sort((a, b) => b.id - a.id);
 

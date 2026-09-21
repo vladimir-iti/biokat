@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { CountUp } from '@/components/motion/CountUp';
 import { Container } from '@/components/ui/Container';
-import { formatMillions } from '@/lib/format';
-import { totalAmount, totalContracts } from '@/lib/queries';
+import { formatMillions, plural } from '@/lib/format';
+import { registryPeriod, totalAmount, totalContracts } from '@/lib/queries';
 import { company } from '@/content/company';
 import { cn } from '@/lib/cn';
 
@@ -20,7 +20,7 @@ export function StatsBar() {
   const stats: Stat[] = [
     {
       value: <CountUp value={totalContracts}>{totalContracts}</CountUp>,
-      title: 'исполненных договоров с 2016 года',
+      title: `${plural(totalContracts, ['договор', 'договора', 'договоров'])} ${registryPeriod}`,
       href: '/experience/',
     },
     {
@@ -54,30 +54,37 @@ export function StatsBar() {
         <div className="lg:grid lg:grid-cols-[var(--bus-offset)_minmax(0,1fr)]">
           <div className="relative hidden lg:block" aria-hidden="true">
           </div>
+          {/* Прямыми детьми dl могут быть только dt, dd и div — ссылка лежит
+              внутри div, иначе список определений распадается для скринридера.
+              Разделители и рамки держит div: он же ячейка сетки. */}
           <dl className="grid divide-line sm:grid-cols-2 sm:divide-x lg:grid-cols-4">
             {stats.map((stat) => (
-              <Link
+              <div
                 key={stat.title}
-                href={stat.href}
-                className="group border-b border-line px-0 py-8 transition-colors duration-150 last:border-b-0 sm:border-b-0 sm:px-8 sm:py-10 sm:first:pl-0 lg:py-12"
+                className="border-b border-line last:border-b-0 sm:border-b-0 sm:first:[&>a]:pl-0"
               >
-                <dd
-                  className={cn(
-                    'flex items-baseline gap-2 transition-colors duration-150 group-hover:text-teal',
-                    stat.text
-                      ? 'font-display text-3xl font-medium leading-none tracking-[-0.02em] lg:text-4xl'
-                      : 't-data',
-                  )}
+                <Link
+                  href={stat.href}
+                  className="group block px-0 py-8 transition-colors duration-150 sm:px-8 sm:py-10 lg:py-12"
                 >
-                  <span className={stat.accent ? 'text-teal' : undefined}>{stat.value}</span>
-                  {stat.unit && (
-                    <span className="whitespace-nowrap font-sans t-small font-medium text-steel">
-                      {stat.unit}
-                    </span>
-                  )}
-                </dd>
-                <dt className="t-small mt-4 max-w-[22ch] text-steel">{stat.title}</dt>
-              </Link>
+                  <dd
+                    className={cn(
+                      'flex items-baseline gap-2 transition-colors duration-150 group-hover:text-teal',
+                      stat.text
+                        ? 'font-display text-3xl font-medium leading-none tracking-[-0.02em] lg:text-4xl'
+                        : 't-data',
+                    )}
+                  >
+                    <span className={stat.accent ? 'text-teal' : undefined}>{stat.value}</span>
+                    {stat.unit && (
+                      <span className="whitespace-nowrap font-sans t-small font-medium text-steel">
+                        {stat.unit}
+                      </span>
+                    )}
+                  </dd>
+                  <dt className="t-small mt-4 max-w-[22ch] text-steel">{stat.title}</dt>
+                </Link>
+              </div>
             ))}
           </dl>
         </div>
