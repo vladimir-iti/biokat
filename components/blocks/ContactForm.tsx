@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { ActionButton } from '@/components/ui/Button';
+import { asset } from '@/lib/asset';
 import { cn } from '@/lib/cn';
 import {
   caretAfterDigits,
@@ -13,7 +14,9 @@ import {
 
 type Status = 'idle' | 'sending' | 'success' | 'error';
 
-const ENDPOINT = '/form.php';
+// Путь к обработчику — сырой, next/link его не обрабатывает:
+// на превью в подпапке префикс подставляет asset()
+const ENDPOINT = asset('/form.php');
 
 function Field({
   id,

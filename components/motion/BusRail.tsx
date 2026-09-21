@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 /**
  * Вертикальная шина.
@@ -22,12 +22,23 @@ export function BusRail() {
   const upRef = useRef<HTMLDivElement>(null);
   const downRef = useRef<HTMLDivElement>(null);
 
+  /** Шина живёт только на десктопе, но окно можно растянуть из узкого */
+  const [wide, setWide] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 1024px)');
+    const sync = () => setWide(query.matches);
+    sync();
+    query.addEventListener('change', sync);
+    return () => query.removeEventListener('change', sync);
+  }, []);
+
   useEffect(() => {
     const root = rootRef.current;
     const up = upRef.current;
     const down = downRef.current;
     if (!root || !up || !down) return;
-    if (window.matchMedia('(max-width: 1023px)').matches) return;
+    if (!wide) return;
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -225,8 +236,10 @@ export function BusRail() {
       window.removeEventListener('resize', remeasure);
       observer.disconnect();
       cancelAnimationFrame(frame);
+      // Окно сузили до мобильного — шины больше нет, гасим вывеску
+      delete document.documentElement.dataset.busLit;
     };
-  }, []);
+  }, [wide]);
 
   return (
     <div

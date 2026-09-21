@@ -1,10 +1,10 @@
 @import 'tailwindcss';
 
 /* ---------------------------------------------------------------
-   Дизайн-система «Биокат»
-   Палитра взята из логотипа (тил #0F7A8E), остальное построено
-   вокруг него: холодный лист схемы и графит корпуса щита.
-   --------------------------------------------------------------- */
+Дизайн-система «Биокат»
+Палитра взята из логотипа (тил #0F7A8E), остальное построено
+вокруг него: холодный лист схемы и графит корпуса щита.
+--------------------------------------------------------------- */
 
 @theme {
   --color-ink: #0e1a1f;
@@ -28,17 +28,17 @@
   --bus-offset: 88px;
 
   /* Высота рамки названия блока. От неё считаются положение узла
-     и точка входа горизонтальной линии. */
+  и точка входа горизонтальной линии. */
   --bus-box-h: 31px;
 
   /* Строка хлебных крошек с отступом под ней. На внутренних страницах
-     она стоит над меткой блока, поэтому на главной, где крошек нет,
-     ровно на эту величину увеличен верхний отступ первого экрана —
-     метки на всех страницах оказываются на одной высоте. */
+  она стоит над меткой блока, поэтому на главной, где крошек нет,
+  ровно на эту величину увеличен верхний отступ первого экрана —
+  метки на всех страницах оказываются на одной высоте. */
   --hero-crumbs: 2.625rem;
 
   /* Отступ вертикали знака от его левого края. На эту величину логотип
-     сдвигается влево, чтобы его линия легла точно на линию шины. */
+  сдвигается влево, чтобы его линия легла точно на линию шины. */
   --logo-line-inset: 15px;
 
   --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -48,72 +48,72 @@
   *,
   *::before,
   *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
   }
 
   html {
-  -webkit-text-size-adjust: 100%;
-  scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
   }
 
   body {
-  margin: 0;
-  background-color: var(--color-paper);
-  color: var(--color-ink);
-  font-family: var(--font-sans);
-  font-size: 1.0625rem; /* 17px */
-  line-height: 1.65;
-  font-feature-settings: 'ss01';
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+    margin: 0;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem; /* 17px */
+    line-height: 1.65;
+    font-feature-settings: 'ss01';
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   h1,
   h2,
   h3,
   h4 {
-  margin: 0;
-  text-wrap: balance;
+    margin: 0;
+    text-wrap: balance;
   }
 
   p {
-  margin: 0;
-  text-wrap: pretty;
+    margin: 0;
+    text-wrap: pretty;
   }
 
   a {
-  color: inherit;
-  text-decoration: none;
+    color: inherit;
+    text-decoration: none;
   }
 
   img,
   picture,
   svg {
-  display: block;
-  max-width: 100%;
+    display: block;
+    max-width: 100%;
   }
 
   table {
-  border-collapse: collapse;
+    border-collapse: collapse;
   }
 
   button,
   input,
   textarea,
   select {
-  font: inherit;
-  color: inherit;
+    font: inherit;
+    color: inherit;
   }
 
   /* Единая видимая фокусировка — снимать её нельзя нигде */
   :focus-visible {
-  outline: 2px solid var(--color-teal);
-  outline-offset: 3px;
-  border-radius: 2px;
+    outline: 2px solid var(--color-teal);
+    outline-offset: 3px;
+    border-radius: 2px;
   }
 
   ::selection {
-  background: color-mix(in srgb, var(--color-teal) 22%, transparent);
+    background: color-mix(in srgb, var(--color-teal) 22%, transparent);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -125,7 +125,7 @@
     *::after {
       animation-duration: 0.001ms !important;
       /* Иначе поэтапный вход задерживал бы появление текста
-         даже при отключённой анимации */
+      даже при отключённой анимации */
       animation-delay: 0ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.001ms !important;
@@ -135,7 +135,7 @@
 }
 
 /* Типографические роли дизайн-системы. @utility, а не @layer components,
-   чтобы роли работали с вариантами (file:, hover: и прочими). */
+чтобы роли работали с вариантами (file:, hover: и прочими). */
 /* t-display */
 @utility t-display {
   hyphens: auto;
@@ -227,33 +227,33 @@
   line-height: 1;
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
-  }
+}
 
 @layer components {
   /* Мера абзаца */
   .measure {
-  max-width: 68ch;
+    max-width: 68ch;
   }
 }
 
 /* Прочерчивание hairline-подчёркивания у текстовых ссылок */
 @layer utilities {
   .link-draw {
-  background-image: linear-gradient(currentColor, currentColor);
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  background-size: 0 1px;
-  padding-bottom: 6px;
-  transition: background-size 240ms var(--ease-out-soft);
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0 1px;
+    padding-bottom: 6px;
+    transition: background-size 240ms var(--ease-out-soft);
   }
 
   .link-draw:hover,
   .link-draw:focus-visible {
-  background-size: 100% 1px;
+    background-size: 100% 1px;
   }
 
   .tnum {
-  font-variant-numeric: tabular-nums;
+    font-variant-numeric: tabular-nums;
   }
 }
 
@@ -271,14 +271,14 @@
   }
 
   .rise {
-  animation: rise 0.7s var(--ease-out-soft) both;
+    animation: rise 0.7s var(--ease-out-soft) both;
   }
 
 }
 
 /* Верхний отступ первого экрана там, где нет хлебных крошек: главная и
-   страница 404. Совпадает с отступом внутренних страниц плюс строка крошек,
-   поэтому метка блока везде оказывается на одной высоте. */
+страница 404. Совпадает с отступом внутренних страниц плюс строка крошек,
+поэтому метка блока везде оказывается на одной высоте. */
 @utility hero-pt {
   padding-top: calc(2.5rem + var(--hero-crumbs));
 
@@ -292,22 +292,22 @@
 }
 
 /* Появление секций. Скрываем только при работающем JS —
-   иначе страница без скриптов осталась бы пустой. */
+иначе страница без скриптов осталась бы пустой. */
 @layer components {
   .reveal {
-  transition:
-      opacity 500ms var(--ease-out-soft),
-      transform 500ms var(--ease-out-soft);
+    transition:
+    opacity 500ms var(--ease-out-soft),
+    transform 500ms var(--ease-out-soft);
   }
 
   [data-js='on'] .reveal {
-  opacity: 0;
-  transform: translateY(16px);
+    opacity: 0;
+    transform: translateY(16px);
   }
 
   [data-js='on'] .reveal[data-shown='true'] {
-  opacity: 1;
-  transform: none;
+    opacity: 1;
+    transform: none;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -319,8 +319,8 @@
 }
 
 /* Шапка страницы уже задаёт нижний отступ — следующая секция
-   не должна складывать с ним полный шаг ритма.
-   Правило вне слоёв: иначе его перебьют утилиты py-* из слоя utilities. */
+не должна складывать с ним полный шаг ритма.
+Правило вне слоёв: иначе его перебьют утилиты py-* из слоя utilities. */
 [data-page-hero] + section {
   padding-top: 4rem;
 }
@@ -338,7 +338,7 @@
 }
 
 /* Реестр договоров: на узких экранах таблица разворачивается в строки-карточки,
-   иначе её пришлось бы листать вбок. Правило вне слоёв — перебивает утилиты. */
+иначе её пришлось бы листать вбок. Правило вне слоёв — перебивает утилиты. */
 @media (max-width: 767px) {
   .table-cards,
   .table-cards tbody,
@@ -400,9 +400,9 @@
 }
 
 /* Узел, линия до рамки, обводка названия блока и цвет метки.
-   Состоянием всей связки управляет data-live на строке блока: ток доходит
-   до узла, уходит вправо, обходит название с двух сторон, замыкается —
-   и метка перекрашивается в цвет тока. */
+Состоянием всей связки управляет data-live на строке блока: ток доходит
+до узла, уходит вправо, обходит название с двух сторон, замыкается —
+и метка перекрашивается в цвет тока. */
 
 .bus-node {
   background-color: var(--color-line);
@@ -483,8 +483,8 @@
 }
 
 /* Продолжение шины в подвале и неоновая вывеска.
-   Ток доходит до знака — и БИОКАТ коротко, вразнобой мигает,
-   после чего остаётся цветом логотипа. */
+Ток доходит до знака — и БИОКАТ коротко, вразнобой мигает,
+после чего остаётся цветом логотипа. */
 .bus-foot {
   transform: scaleY(0);
   will-change: transform;

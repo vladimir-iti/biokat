@@ -8,7 +8,6 @@ import { Reveal } from '@/components/motion/Reveal';
 import { ProjectCard } from '@/components/project/ProjectCard';
 import { Button } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
-import { Label } from '@/components/ui/Label';
 import { Picture } from '@/components/ui/Picture';
 import { Section } from '@/components/ui/Section';
 import { Tag } from '@/components/ui/Tag';

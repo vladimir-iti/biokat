@@ -50,7 +50,7 @@ export function organizationJsonLd() {
     '@type': 'Organization',
     name: company.legalName,
     alternateName: 'ГК «Биокат»',
-    url: company.origin,
+    url: absolute('/'),
     telephone: company.phone,
     email: company.email,
     foundingDate: String(company.companySince),
@@ -84,8 +84,8 @@ export function serviceJsonLd(title: string, description: string, path: string) 
     '@type': 'Service',
     name: title,
     description,
-    url: `${company.origin}${path}`,
-    provider: { '@type': 'Organization', name: company.legalName, url: company.origin },
+    url: absolute(path),
+    provider: { '@type': 'Organization', name: company.legalName, url: absolute('/') },
     areaServed: 'RU',
   };
 }
@@ -98,7 +98,7 @@ export function breadcrumbsJsonLd(items: { name: string; path: string }[]) {
       '@type': 'ListItem',
       position: index + 1,
       name: item.name,
-      item: `${company.origin}${item.path}`,
+      item: absolute(item.path),
     })),
   };
 }

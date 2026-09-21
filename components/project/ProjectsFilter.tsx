@@ -33,11 +33,18 @@ export function ProjectsFilter({
 
   // Начальное состояние берём из адреса уже после гидратации:
   // страница пререндерится полной, и такой её видит поисковик.
+  // Тот же разбор нужен на «назад»: историю пишем сами, и без обработчика
+  // кнопка меняла бы адрес, не трогая выборку.
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setType(params.get('type'));
-    setService(params.get('service'));
-    setRegion(params.get('region'));
+    const read = () => {
+      const params = new URLSearchParams(window.location.search);
+      setType(params.get('type'));
+      setService(params.get('service'));
+      setRegion(params.get('region'));
+    };
+    read();
+    window.addEventListener('popstate', read);
+    return () => window.removeEventListener('popstate', read);
   }, []);
 
   useEffect(() => {
@@ -60,11 +67,14 @@ export function ProjectsFilter({
     if (service) params.set('service', service);
     if (region) params.set('region', region);
     const query = params.toString();
-    window.history.replaceState(
-      null,
-      '',
-      query ? `${window.location.pathname}?${query}` : window.location.pathname,
-    );
+    const next = query
+      ? `${window.location.pathname}?${query}`
+      : window.location.pathname;
+    // replaceState, а не pushState: иначе каждый щелчок по фильтру
+    // добавлял бы шаг в историю и «назад» уводило бы из неё по одному
+    if (next !== `${window.location.pathname}${window.location.search}`) {
+      window.history.replaceState(null, '', next);
+    }
   }, [type, service, region]);
 
   const chip = (active: boolean) =>
@@ -137,11 +147,13 @@ export function ProjectsFilter({
               ))}
             </select>
 
-            {visible !== null && (
-              <span className="font-mono t-micro text-steel">
-                Показано: {visible}
-              </span>
-            )}
+            <span
+              role="status"
+              aria-live="polite"
+              className="font-mono t-micro text-steel"
+            >
+              {visible !== null && `Показано: ${visible}`}
+            </span>
 
             {reset && (
               <button
