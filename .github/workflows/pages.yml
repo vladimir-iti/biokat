@@ -36,10 +36,10 @@ jobs:
           # а не с ещё не запущенного домена
           NEXT_PUBLIC_SITE_ORIGIN: https://${{ github.repository_owner }}.github.io
 
-      # На Pages нет PHP: обработчик формы там не исполняется, а его исходник
-      # отдавался бы как обычный текстовый файл. Превью он не нужен.
-      - name: Убрать серверную часть из превью
-        run: rm -f out/form.php out/smtp.php out/.htaccess
+      # .htaccess — правила Apache, на Pages он не работает, а содержимое
+      # отдавалось бы как обычный текстовый файл.
+      - name: Убрать .htaccess из превью
+        run: rm -f out/.htaccess
 
       - uses: actions/configure-pages@v5
 

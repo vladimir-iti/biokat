@@ -8,7 +8,6 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/form.php'],
     },
     // host Яндекс не поддерживает с 2018 года — остаётся только sitemap
     sitemap: `${company.origin}/sitemap.xml`,

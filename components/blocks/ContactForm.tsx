@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { ActionButton } from '@/components/ui/Button';
-import { asset } from '@/lib/asset';
 import { cn } from '@/lib/cn';
 import {
   caretAfterDigits,
@@ -14,9 +13,17 @@ import {
 
 type Status = 'idle' | 'sending' | 'success' | 'error';
 
-// Путь к обработчику — сырой, next/link его не обрабатывает:
-// на превью в подпапке префикс подставляет asset()
-const ENDPOINT = asset('/form.php');
+/**
+ * Заявки принимает общий сервис forms.genobiz.ru: проверка, антиспам
+ * и отправка письма живут там, у сайта своей серверной части нет.
+ * Ключ сайта заведён в его config/sites.php — он же решает, куда уйдёт
+ * письмо и с каких доменов запрос вообще принимается.
+ */
+const ENDPOINT = 'https://forms.genobiz.ru/submit';
+const SITE_KEY = 'biokat';
+
+/** Форма отправляется как multipart: иначе к заявке не приложить файл. */
+const unixSeconds = () => Math.floor(Date.now() / 1000);
 
 function Field({
   id,
@@ -61,7 +68,7 @@ export function ContactForm({
   const phoneRef = useRef<HTMLInputElement>(null);
   const caretRef = useRef<number | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const openedAt = useRef(Date.now());
+  const openedAt = useRef(unixSeconds());
 
   const isSpec = variant === 'spec';
 
@@ -100,14 +107,24 @@ export function ContactForm({
     event.preventDefault();
     const form = event.currentTarget;
     const data = new FormData(form);
-    data.set('elapsed', String(Math.round((Date.now() - openedAt.current) / 1000)));
+    data.set('site', SITE_KEY);
+    // Сервис отличает человека от бота по возрасту формы, а не по тому,
+    // сколько секунд прошло: присылаем метку отрисовки, как он и ждёт.
+    data.set('form_ts', String(openedAt.current));
+    data.set('page_url', window.location.href);
     data.set('subject', isSpec ? 'Расчёт по спецификации' : 'Заявка с сайта');
 
     setStatus('sending');
     setError(null);
 
+    // С вложением запрос идёт ровно столько, сколько занимает отдача файла:
+    // на слабом канале 10 МБ в пятнадцать секунд не уложатся.
+    const file = data.get('file');
+    const hasFile = file instanceof File && file.size > 0;
+    const limitMs = hasFile ? 120000 : 15000;
+
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
+    const timeout = setTimeout(() => controller.abort(), limitMs);
 
     try {
       const response = await fetch(ENDPOINT, {
@@ -129,7 +146,7 @@ export function ContactForm({
       setStatus('error');
       setError(
         cause instanceof DOMException && cause.name === 'AbortError'
-          ? 'Сервер не ответил за 15 секунд'
+          ? `Сервер не ответил за ${Math.round(limitMs / 1000)} секунд`
           : cause instanceof Error
             ? cause.message
             : 'Не удалось отправить заявку',
@@ -218,7 +235,7 @@ export function ContactForm({
               id="file"
               name="file"
               type="file"
-              accept=".pdf,.dwg,.xls,.xlsx,.zip,.rar,.7z"
+              accept=".pdf,.dwg,.dxf,.xls,.xlsx,.zip,.rar,.7z"
               className="flex min-h-13 w-full items-center rounded-[2px] border border-line bg-panel px-4 py-3 t-small outline-none transition-colors duration-150 focus:border-teal file:mr-4 file:rounded-[2px] file:border-0 file:bg-paper file:px-3 file:py-2 file:t-micro file:font-medium"
             />
           </Field>
@@ -241,10 +258,11 @@ export function ContactForm({
         </Field>
       </div>
 
-      {/* Ловушка для ботов — скрыта от людей и от скринридеров */}
+      {/* Ловушка для ботов — скрыта от людей и от скринридеров.
+          Имя поля задаёт сервис: он ищет именно website */}
       <div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
         <label htmlFor="company-website">Не заполняйте это поле</label>
-        <input id="company-website" name="company_website" type="text" tabIndex={-1} autoComplete="off" />
+        <input id="company-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
       </div>
 
       <label className="mt-6 flex items-start gap-3 t-micro leading-relaxed">
@@ -252,7 +270,7 @@ export function ContactForm({
           type="checkbox"
           name="consent"
           required
-          value="yes"
+          value="да"
           className="mt-1 size-4 shrink-0 accent-[var(--color-teal)]"
         />
         <span className={tone === 'dark' ? 'text-paper/70' : 'text-steel'}>
