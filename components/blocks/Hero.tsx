@@ -50,8 +50,11 @@ export function Hero() {
               className="rise mt-10 flex flex-wrap items-center gap-4"
               style={{ animationDelay: '480ms' }}
             >
-              <Button href="/contacts/">Обсудить задачу</Button>
-              <Button href="/projects/" variant="secondary">
+              {/* На телефоне кнопки стоят столбиком — одной ширины, во всю строку */}
+              <Button href="/contacts/" data-lead className="w-full sm:w-auto">
+                Обсудить задачу
+              </Button>
+              <Button href="/projects/" variant="secondary" className="w-full sm:w-auto">
                 Смотреть объекты
               </Button>
             </div>

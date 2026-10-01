@@ -1,9 +1,11 @@
 import type { Contract } from '@/lib/types';
 
 /**
- * Реестр исполненных договоров ООО «ГК «БИОКАТ».
+ * Реестр договоров ООО «ГК «БИОКАТ».
  * Источник — справка о компании, подписанная генеральным директором.
  * Суммы в тысячах рублей, ровно как в справке.
+ * Строки 27–28 — государственные контракты 2026 года, добавлены после справки;
+ * номера контрактов на сайте не публикуются, как и у остальных договоров.
  */
 export const contracts: Contract[] = [
   { id: 1, signed: '09.07.2016', finished: '24.04.2017', client: 'ООО «Ленстроймонтаж»', description: 'Электромонтажные и слаботочные работы, изготовление НКУ для ВНС и КНС, г. Сочи', amount: 27796.8, status: 'done', services: ['power-supply', 'low-current', 'switchboards'], project: 'sochi-vns' },
@@ -32,4 +34,6 @@ export const contracts: Contract[] = [
   { id: 24, signed: '23.02.2025', finished: '30.10.2025', client: 'ООО СЗ «Сьюфорт»', description: 'Электромонтажные и слаботочные работы, изготовление НКУ для многоквартирного жилого дома, МО, г. Апрелевка', amount: 37223.0, status: 'done', services: ['power-supply', 'lighting', 'low-current', 'switchboards'], project: 'mkd-aprelevka' },
   { id: 25, signed: '21.08.2025', finished: 'В работе', client: 'ООО «ГПМ Лобня»', description: 'Электромонтажные и слаботочные работы, изготовление НКУ для многоквартирного жилого дома, МО, г. Балашиха', amount: 33110.0, status: 'active', services: ['power-supply', 'lighting', 'low-current', 'switchboards'], project: 'mkd-balashikha' },
   { id: 26, signed: '20.10.2025', finished: 'В работе', client: 'ООО «Наследие»', description: 'Электромонтажные и слаботочные работы, изготовление НКУ для подстанции 500 кВ «Западная», МО, г. Красногорск', amount: 11213.0, status: 'active', services: ['high-voltage', 'power-supply', 'switchboards'], project: 'ps-zapadnaya' },
+  { id: 27, signed: '26.01.2026', finished: 'В работе', client: 'ФГКВОУ ВО «Военный университет имени князя Александра Невского» Министерства обороны РФ', description: 'Электромонтажные и слаботочные работы по государственному контракту', amount: 8240.83, status: 'active', services: ['power-supply', 'lighting', 'low-current'], afterStatement: true },
+  { id: 28, signed: '18.03.2026', finished: 'В работе', client: 'ФГКВОУ ВО «Военный университет имени князя Александра Невского» Министерства обороны РФ', description: 'Электромонтажные и слаботочные работы по государственному контракту', amount: 28407.52, status: 'active', services: ['power-supply', 'lighting', 'low-current'], afterStatement: true },
 ];

@@ -14,5 +14,6 @@ export const mainNav: NavItem[] = [
 
 export const footerNav: NavItem[] = [
   ...mainNav,
-  { href: '/privacy/', title: 'Политика конфиденциальности' },
+  { href: '/privacy/', title: 'Политика обработки персональных данных' },
+  { href: '/consent/', title: 'Согласие на обработку данных' },
 ];

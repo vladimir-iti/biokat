@@ -29,6 +29,13 @@ export const registrySpan = `${registryFrom}–${registryTo}`;
 /** «с 2016 по 2025 год» — для текста в предложении */
 export const registryPeriod = `с ${registryFrom} по ${registryTo} год`;
 
+/** Строки справки о компании — ровно то, что лежит в contracts-registry.pdf */
+export const statementContracts = contracts.filter((c) => !c.afterStatement);
+const statementYears = statementContracts.flatMap((c) =>
+  [yearOf(c.signed), yearOf(c.finished)].filter((y): y is number => y !== null),
+);
+export const statementPeriod = `с ${Math.min(...statementYears)} по ${Math.max(...statementYears)} год`;
+
 export const contractsByDate = [...contracts].sort((a, b) => b.id - a.id);
 
 export function contractsForService(slug: ServiceSlug): Contract[] {

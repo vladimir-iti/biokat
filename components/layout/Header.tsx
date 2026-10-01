@@ -12,6 +12,9 @@ export interface ServiceLink {
   slug: string;
   title: string;
   short: string;
+  titleLines?: [string, string];
+  /** Маркировка направления: W1, F1, НКУ… */
+  code: string;
 }
 
 export function Header({
@@ -116,20 +119,41 @@ export function Header({
                       : 'pointer-events-none -translate-y-1 opacity-0',
                   )}
                 >
-                  <div className="grid grid-cols-2 gap-x-6 gap-y-2 rounded-[2px] border border-line bg-panel p-4 shadow-[0_16px_40px_rgba(14,26,31,0.1)]">
+                  {/* Светлая подложка и белые карточки-пункты: каждое направление
+                      читается отдельным модулем, как на щите */}
+                  <div className="grid grid-cols-2 gap-2 rounded-[2px] border border-line bg-paper p-3 shadow-[0_16px_40px_rgba(14,26,31,0.12)]">
                     {serviceLinks.map((service, index) => (
                       <Link
                         key={service.slug}
                         href={`/services/${service.slug}/`}
                         className={cn(
-                          'group rounded-[2px] p-3 transition-colors duration-150 hover:bg-paper',
+                          'group relative overflow-hidden rounded-[2px] border border-line bg-panel p-4',
+                          'transition-[border-color,transform,box-shadow] duration-200 ease-[var(--ease-out-soft)]',
+                          'hover:-translate-y-px hover:border-teal hover:shadow-[0_6px_16px_rgba(14,26,31,0.08)]',
+                          'focus-visible:border-teal',
                           index === serviceLinks.length - 1 &&
                             serviceLinks.length % 2 === 1 &&
                             'col-span-2',
                         )}
                       >
-                        <span className="block font-semibold transition-colors group-hover:text-teal">
-                          {service.title}
+                        {/* Маркировочная полоса прорастает сверху при наведении */}
+                        <span
+                          aria-hidden="true"
+                          className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-teal transition-transform duration-300 ease-[var(--ease-out-soft)] group-hover:scale-x-100 group-focus-visible:scale-x-100"
+                        />
+                        <span className="mb-2 block font-mono t-label-sm text-teal">
+                          {service.code}
+                        </span>
+                        <span className="block leading-snug font-semibold transition-colors group-hover:text-teal">
+                          {service.titleLines ? (
+                            <>
+                              {service.titleLines[0]}
+                              <br />
+                              {service.titleLines[1]}
+                            </>
+                          ) : (
+                            service.title
+                          )}
                         </span>
                         <span className="mt-1 block t-micro leading-snug text-steel">
                           {service.short}
@@ -163,6 +187,7 @@ export function Header({
           </a>
           <Link
             href="/contacts/"
+            data-lead
             className="hidden h-11 shrink-0 items-center rounded-[2px] bg-teal px-6 t-small font-semibold whitespace-nowrap text-white transition-colors duration-150 hover:bg-teal-deep xl:inline-flex"
           >
             Обсудить задачу

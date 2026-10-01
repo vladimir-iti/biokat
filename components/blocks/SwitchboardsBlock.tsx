@@ -21,8 +21,11 @@ export function SwitchboardsBlock() {
       label="НКУ · Собственное производство"
       title="Щиты собираем сами — по спецификации проекта"
       lead="Производственная площадка в Мытищинском районе. Комплектуем под задачу, маркируем, проверяем и выдаём с паспортом, инструкцией и гарантией до пяти лет."
+      // Попап с полем для файла; без скриптов — страница направления с той же формой
       headerAside={
-        <Button href="/services/switchboards/">Отправить спецификацию</Button>
+        <Button href="/services/switchboards/" data-lead="spec">
+          Отправить спецификацию
+        </Button>
       }
     >
       <div className="grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">

@@ -3,6 +3,7 @@ import { Golos_Text, JetBrains_Mono, Unbounded } from 'next/font/google';
 import { BusRail } from '@/components/motion/BusRail';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { LeadDialog } from '@/components/blocks/LeadDialog';
 import { company } from '@/content/company';
 import { siteOrigin } from '@/lib/asset';
 import { mainNav } from '@/content/nav';
@@ -39,7 +40,7 @@ export const metadata: Metadata = {
     default: 'ГК «Биокат» — инженерные системы объектов',
     template: '%s',
   },
-  description: `Электроснабжение, пожарная безопасность, слаботочные системы, автоматизация и производство низковольтных шкафов. ${doneContracts.length} исполненных ${plural(doneContracts.length, ['договор', 'договора', 'договоров'])}, лицензия МЧС бессрочно.`,
+  description: `Электроснабжение, пожарная безопасность, слаботочные системы, автоматизация и производство низковольтных шкафов. ${doneContracts.length} исполненных ${plural(doneContracts.length, ['договор', 'договора', 'договоров'])}, допуски СРО на изыскания, проектирование и строительство.`,
   applicationName: 'ГК «Биокат»',
   formatDetection: { telephone: true },
   // Превью на GitHub Pages не должно конкурировать с будущим сайтом в поиске
@@ -57,6 +58,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const serviceLinks = services.map((service) => ({
     slug: service.slug,
     title: service.title,
+    titleLines: service.titleLines,
+    code: service.label.split(' · ')[0],
     short: service.short,
   }));
 
@@ -88,6 +91,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <Footer />
+        {/* Попап заявки: открывается кнопками с атрибутом data-lead */}
+        <LeadDialog />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}

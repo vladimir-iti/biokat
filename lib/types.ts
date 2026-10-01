@@ -10,6 +10,8 @@ export type ServiceSlug =
 export interface Service {
   slug: ServiceSlug;
   title: string;
+  /** Где переносить длинное название в выпадающем меню «Услуги» */
+  titleLines?: [string, string];
   /** Родительный падеж для фраз вида «объекты по направлению …» */
   genitive: string;
   label: string;
@@ -64,9 +66,11 @@ export interface Contract {
   status: ContractStatus;
   services: ServiceSlug[];
   project?: string;
+  /** Договор заключён после справки о компании и в её PDF не входит */
+  afterStatement?: boolean;
 }
 
-export type DocumentKind = 'license' | 'sro' | 'certificate' | 'sample';
+export type DocumentKind = 'sro' | 'certificate' | 'sample';
 
 export interface DocumentItem {
   id: string;

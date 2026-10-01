@@ -53,7 +53,7 @@ export function ContractsTable({ contracts }: { contracts: Contract[] }) {
     <div className="overflow-x-auto">
       <table className="table-cards w-full text-left md:min-w-[860px]">
         <caption className="sr-only">
-          Реестр исполненных договоров ООО «ГК «Биокат»
+          Реестр договоров ООО «ГК «Биокат»
         </caption>
         <thead>
           <tr className="border-b border-ink/20">

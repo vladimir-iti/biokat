@@ -19,9 +19,9 @@ export function ProjectsPreview() {
         </Button>
       }
     >
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="cards sm:[--cols:2] lg:[--cols:3]">
         {list.map((project, index) => (
-          <Reveal key={project.slug} delay={index * 60} className="h-full">
+          <Reveal key={project.slug} delay={index * 60}>
             <ProjectCard project={project} />
           </Reveal>
         ))}

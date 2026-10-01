@@ -120,16 +120,23 @@ export default async function ProjectPage({
                 className="rise mt-12 grid gap-10 lg:grid-cols-[1.6fr_1fr] lg:gap-16"
                 style={{ animationDelay: '380ms' }}
               >
-                <div className="self-start overflow-hidden rounded-[2px] border border-line">
+                {/* Обе колонки тянутся на высоту ряда: низ картинки и нижняя
+                    линия фактов стоят на одном уровне. Минимальную высоту ряду
+                    даёт сама картинка (16:10 по атрибутам width/height), а если
+                    фактов больше — она заполняет высоту с обрезкой по краям.
+                    aspect-ratio на десктопе снят: при растянутой высоте он
+                    пересчитал бы ширину и вывел картинку за колонку. */}
+                <div className="aspect-16/10 self-stretch overflow-hidden rounded-[2px] border border-line lg:aspect-auto">
                   <Picture
                     base={`/images/projects/${project.slug}`}
                     alt={`${project.title}. ${project.address}`}
                     sizes="(min-width: 1024px) 60vw, 100vw"
+                    className="h-full"
                     priority
                   />
                 </div>
 
-                <dl className="divide-y divide-line self-start border-y border-line">
+                <dl className="divide-y divide-line border-y border-line">
                   {project.client && (
                     <div className="py-4">
                       <dt className="t-label text-steel">Заказчик</dt>
@@ -235,9 +242,9 @@ export default async function ProjectPage({
             </Button>
           }
         >
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="cards md:[--cols:3]">
             {related.map((item, index) => (
-              <Reveal key={item.slug} delay={index * 60} className="h-full">
+              <Reveal key={item.slug} delay={index * 60}>
                 <ProjectCard project={item} />
               </Reveal>
             ))}

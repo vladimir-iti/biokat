@@ -172,7 +172,7 @@ export function ProjectsFilter({
         </div>
       </div>
 
-      <div ref={gridRef} className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div ref={gridRef} className="cards mt-10 sm:[--cols:2] lg:[--cols:3]">
         {children}
       </div>
 

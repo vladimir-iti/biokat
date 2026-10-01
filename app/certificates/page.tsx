@@ -12,12 +12,11 @@ import { breadcrumbsJsonLd, buildMetadata } from '@/lib/seo';
 export const metadata: Metadata = buildMetadata({
   title: 'Документы и допуски',
   description:
-    'Бессрочная лицензия МЧС № 77-Б/05039, выписки из реестров СРО на проектирование и на строительство, сертификаты и образцы документации на щитовое оборудование.',
+    'Выписки из реестров СРО на инженерные изыскания, проектирование и строительство, сертификат соответствия ЕАЭС и образцы документации на щитовое оборудование.',
   path: '/certificates/',
 });
 
 const kindTitles: Record<string, string> = {
-  license: 'Лицензия',
   sro: 'СРО',
   certificate: 'Сертификат',
   sample: 'Документация',
@@ -41,12 +40,12 @@ export default function CertificatesPage() {
       <PageHero
         label="Допуски"
         title="Работаем по документам"
-        lead="Лицензия МЧС выдана бессрочно и покрывает одиннадцать видов работ по пожарной безопасности. Оба СРО — на проектирование и на строительство — действующие. Всё можно открыть и проверить."
+        lead="Три действующих СРО — на инженерные изыскания, проектирование и строительство — и сертификат соответствия ЕАЭС на щитовое оборудование. Всё можно открыть и проверить."
         crumbs={[{ title: 'Документы' }]}
       />
 
       <Section label="Основные" title="Действующие допуски">
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-3">
           {withPreview.map((document, index) => (
             <Reveal key={document.id} delay={index * 60} className="h-full">
               <article className="flex h-full flex-col rounded-[2px] border border-line bg-panel">
@@ -106,7 +105,7 @@ export default function CertificatesPage() {
         tone="panel"
         label="Прочее"
         title="Сертификаты и документация"
-        lead="Сертификаты оформлены на предыдущее юридическое лицо команды и заменяются действующими. Актуальные копии и образцы документации высылаем по запросу."
+        lead="Сертификат ЕАЭС на щитовое оборудование действует до сентября 2030 года. Сертификат ISO 9001 оформлен на предыдущее юридическое лицо команды — актуальную копию и образцы документации высылаем по запросу."
       >
         <div className="grid gap-px border border-line bg-line md:grid-cols-3">
           {rest.map((document) => (
@@ -126,6 +125,14 @@ export default function CertificatesPage() {
                 <p className="mt-6 border-l-2 border-teal pl-4 t-micro leading-relaxed text-steel">
                   {document.note}
                 </p>
+              )}
+              {document.file && (
+                <a
+                  href={asset(document.file)}
+                  className="link-draw mt-6 inline-flex items-center gap-2 font-medium text-teal"
+                >
+                  Открыть PDF
+                </a>
               )}
             </article>
           ))}

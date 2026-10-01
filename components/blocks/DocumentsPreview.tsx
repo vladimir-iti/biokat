@@ -12,7 +12,7 @@ export function DocumentsPreview() {
     <Section
       label="Документы"
       title="Работаем по допускам"
-      lead="Бессрочная лицензия МЧС и два действующих СРО — на проектирование и на строительство. Все документы открыты для просмотра."
+      lead="Три действующих СРО — на инженерные изыскания, проектирование и строительство. Все документы открыты для просмотра."
       headerAside={
         <Button href="/certificates/" variant="secondary">
           Все документы
@@ -24,7 +24,7 @@ export function DocumentsPreview() {
           <Reveal key={document.id} delay={index * 60} className="h-full">
             <article className="h-full rounded-[2px] border border-line bg-panel p-6">
               <Label className="mb-4 block text-teal">
-                {document.kind === 'license' ? 'Лицензия' : 'СРО'}
+                СРО
               </Label>
               <h3 className="t-h3">{document.title}</h3>
               <p className="t-small mt-3 text-steel">{document.summary}</p>

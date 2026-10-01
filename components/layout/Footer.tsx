@@ -123,9 +123,22 @@ export function Footer() {
           <p>
             {company.legalNameShort} · ИНН 5029213177 · ОГРН 1165029056400
           </p>
-          <Link href="/privacy/" className="transition-colors hover:text-paper/80">
-            Политика конфиденциальности
-          </Link>
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-8">
+            <Link href="/privacy/" className="transition-colors hover:text-paper/80">
+              Политика обработки персональных данных
+            </Link>
+            <Link href="/consent/" className="transition-colors hover:text-paper/80">
+              Согласие на обработку данных
+            </Link>
+            <a
+              href="https://iti-design.ru"
+              target="_blank"
+              rel="noopener"
+              className="transition-colors hover:text-paper/80"
+            >
+              Разработано iTi
+            </a>
+          </div>
         </div>
         </div>
       </Container>

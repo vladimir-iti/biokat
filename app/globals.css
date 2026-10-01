@@ -229,6 +229,25 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Сетка карточек, у которой неполный последний ряд встаёт по центру,
+а не прижимается влево с дырой справа. Флекс, а не grid: скрытые фильтром
+карточки ([hidden]) выпадают из потока, и центровка пересчитывается сама.
+Число колонок задаётся на месте: cards [--cols:2] lg:[--cols:3].
+Обёртке карточки h-full не нужен — растягивает сам флекс. */
+@utility cards {
+  --cols: 1;
+  --gap: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--gap);
+
+  & > * {
+    flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
+    min-width: 0;
+  }
+}
+
 @layer components {
   /* Мера абзаца */
   .measure {
@@ -547,5 +566,43 @@
   [data-bus-lit='true'] .bus-wordmark {
     animation: none;
     color: var(--color-teal);
+  }
+}
+
+/* Вспышка узла в строке направления: кольцо расходится и гаснет */
+@keyframes node-ping {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.4);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+
+/* Попап заявки: окно всплывает, подложка проявляется */
+.lead-dialog[open] {
+  animation: lead-in 240ms var(--ease-out-soft);
+}
+
+.lead-dialog[open]::backdrop {
+  animation: lead-fade 240ms var(--ease-out-soft);
+}
+
+@keyframes lead-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes lead-fade {
+  from {
+    opacity: 0;
   }
 }

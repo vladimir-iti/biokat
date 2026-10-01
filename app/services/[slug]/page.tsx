@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/Label';
 import { Section } from '@/components/ui/Section';
 import { company } from '@/content/company';
 import { services } from '@/content/services';
+import { cn } from '@/lib/cn';
 import { formatMillions } from '@/lib/format';
 import { contractsForService, projectsForService } from '@/lib/queries';
 import { breadcrumbsJsonLd, buildMetadata, serviceJsonLd } from '@/lib/seo';
@@ -79,7 +80,7 @@ export default async function ServicePage({
         lead={service.lead}
         crumbs={[{ title: 'Услуги', href: '/services/' }, { title: service.title }]}
         aside={
-          <Button href="/contacts/">
+          <Button href="/contacts/" data-lead={isSwitchboards ? 'spec' : ''}>
             {isSwitchboards ? 'Отправить спецификацию' : 'Обсудить задачу'}
           </Button>
         }
@@ -90,8 +91,8 @@ export default async function ServicePage({
           <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr] lg:items-center">
             <p className="t-lead text-paper/75">
               Выезжаем на объект, читаем предписание, обследуем системы и готовим решение,
-              которое закрывает пункты. Работы ведём по бессрочной лицензии
-              № 77-Б/05039 — её реквизиты можно указать в ответе надзорному органу.
+              которое закрывает пункты, а не создаёт новые. По итогам — перечень
+              выполненных работ и документы для ответа надзорному органу.
             </p>
             <div>
               <a
@@ -149,7 +150,17 @@ export default async function ServicePage({
       >
         <div className="grid gap-px border border-line bg-line sm:grid-cols-2">
           {service.strengths.map((strength, index) => (
-            <Reveal key={strength.title} delay={index * 60} className="h-full">
+            <Reveal
+              key={strength.title}
+              delay={index * 60}
+              className={cn(
+                'h-full',
+                // нечётный список не должен оставлять пустую ячейку
+                index === service.strengths.length - 1 &&
+                  service.strengths.length % 2 === 1 &&
+                  'sm:col-span-2',
+              )}
+            >
               <article className="h-full bg-panel p-6">
                 <h3 className="t-h4 text-teal">{strength.title}</h3>
                 <p className="mt-3 text-steel">{strength.text}</p>
@@ -186,7 +197,7 @@ export default async function ServicePage({
           tone="panel"
           label="Договоры"
           title="Крупнейшие договоры по направлению"
-          lead="Из реестра исполненных договоров — с заказчиками, сроками и суммами."
+          lead="Из реестра договоров — с заказчиками, сроками и суммами."
           headerAside={
             <Button href="/experience/" variant="secondary">
               Весь реестр

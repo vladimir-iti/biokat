@@ -1,22 +1,24 @@
 import { plural } from '@/lib/format';
-import { registryPeriod, totalContracts } from '@/lib/queries';
+import { statementContracts, statementPeriod } from '@/lib/queries';
 import type { DocumentItem } from '@/lib/types';
 
 export const documents: DocumentItem[] = [
   {
-    id: 'license-mchs',
-    kind: 'license',
-    title: 'Лицензия МЧС России',
+    id: 'sro-survey',
+    kind: 'sro',
+    title: 'СРО на инженерные изыскания',
     summary:
-      'Деятельность по монтажу, техническому обслуживанию и ремонту средств обеспечения пожарной безопасности зданий и сооружений. Одиннадцать видов работ, срок действия не ограничен.',
+      'Выписка из единого реестра членов саморегулируемых организаций. Право выполнять инженерные изыскания для объектов капитального строительства, кроме особо опасных, технически сложных и уникальных.',
     meta: [
-      { label: 'Номер', value: '77-Б/05039' },
-      { label: 'Дата выдачи', value: '02.06.2017' },
-      { label: 'Срок действия', value: 'Бессрочно' },
-      { label: 'Выдана', value: 'ГУ МЧС России по г. Москве' },
+      { label: 'СРО', value: 'Ассоциация «Национальный Альянс изыскателей «ГеоЦентр»' },
+      { label: 'Реестровый номер СРО', value: 'СРО-И-037-18122012' },
+      { label: 'Номер члена', value: 'И-037-005029213177-2670' },
+      { label: 'Дата приёма', value: '07.09.2026' },
+      { label: 'Уровень ответственности', value: 'Первый — до 25 млн ₽ по договору' },
+      { label: 'Статус', value: 'Действующий член' },
     ],
-    file: '/documents/license-mchs.pdf',
-    preview: '/images/documents/license-mchs',
+    file: '/documents/sro-survey.pdf',
+    preview: '/images/documents/sro-survey',
   },
   {
     id: 'sro-design',
@@ -54,14 +56,15 @@ export const documents: DocumentItem[] = [
   {
     id: 'certificate-nku',
     kind: 'certificate',
-    title: 'Сертификат соответствия на щитовое оборудование',
+    title: 'Сертификат соответствия ЕАЭС на щитовое оборудование',
     summary:
-      'Подтверждение соответствия низковольтных комплектных устройств требованиям технического регламента Таможенного союза.',
+      'Низковольтные комплектные устройства собственного производства — ГРЩ, ВРУ, АВР, ЩР, ЩУ, шкафы управления и автоматики — соответствуют техническим регламентам ТР ТС 004/2011 и ТР ТС 020/2011.',
     meta: [
-      { label: 'Номер', value: 'ТС RU C-RU.ЭМ02.В.00438' },
-      { label: 'Дата', value: '18.12.2015' },
+      { label: 'Номер', value: 'ЕАЭС KG417/039.RU.02.06174' },
+      { label: 'Срок действия', value: '24.09.2025 — 23.09.2030' },
+      { label: 'Изготовитель', value: 'ООО «ГК «БИОКАТ», серийный выпуск' },
     ],
-    note: 'Документ предыдущего юридического лица. Действующий сертификат предоставляется по запросу.',
+    file: '/documents/certificate-eaeu-nku.pdf',
   },
   {
     id: 'iso-9001',
@@ -98,8 +101,9 @@ export const downloads = [
   },
   {
     id: 'contracts-registry',
-    title: 'Реестр исполненных договоров',
-    description: `${totalContracts} ${plural(totalContracts, ['договор', 'договора', 'договоров'])} ${registryPeriod}`,
+    title: 'Реестр договоров',
+    // Подпись описывает сам PDF-файл справки, поэтому считает только её строки
+    description: `${statementContracts.length} ${plural(statementContracts.length, ['договор', 'договора', 'договоров'])} ${statementPeriod}`,
     file: '/documents/contracts-registry.pdf',
     format: 'PDF',
   },

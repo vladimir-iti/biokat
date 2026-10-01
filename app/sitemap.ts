@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/certificates/', priority: 0.7 },
     { path: '/contacts/', priority: 0.7 },
     { path: '/privacy/', priority: 0.2 },
+    { path: '/consent/', priority: 0.1 },
   ];
 
   return [

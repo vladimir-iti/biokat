@@ -19,7 +19,7 @@ import {
 import { breadcrumbsJsonLd, buildMetadata } from '@/lib/seo';
 
 export const metadata: Metadata = buildMetadata({
-  title: 'Реестр исполненных договоров',
+  title: 'Реестр договоров',
   description: `Полный реестр договоров ООО «ГК «Биокат» ${registryPeriod}: заказчики, сроки, суммы. ${totalContracts} ${plural(totalContracts, ['договор', 'договора', 'договоров'])} на ${formatMillions(totalAmount)} млн ₽.`,
   path: '/experience/',
 });
@@ -40,8 +40,8 @@ export default function ExperiencePage() {
 
       <PageHero
         label={`Договоры ${registrySpan}`}
-        title="Реестр исполненных договоров"
-        lead="Данные из справки о компании, подписанной генеральным директором. Заказчики, сроки и суммы — как есть. Реестр открыт, потому что каждая строка проверяется."
+        title="Реестр договоров"
+        lead="Данные из справки о компании, подписанной генеральным директором, и государственных контрактов. Заказчики, сроки и суммы — как есть. Реестр открыт, потому что каждая строка проверяется."
         crumbs={[{ title: 'Опыт' }]}
         aside={
           registry && (
@@ -102,7 +102,8 @@ export default function ExperiencePage() {
         <ContractsTable contracts={contractsByDate} />
 
         <p className="t-small mt-8 text-steel">
-          Суммы приведены в миллионах рублей и соответствуют справке о компании. Часть
+          Суммы приведены в миллионах рублей и соответствуют справке о компании
+          и государственным контрактам. Часть
           объектов выполнена до создания текущего юридического лица — они показаны в
           разделе «Объекты» без указания сумм.
         </p>
