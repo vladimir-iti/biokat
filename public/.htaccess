@@ -3,6 +3,11 @@
 Options -Indexes
 DirectoryIndex index.html
 
+# Слеш к адресу папки дописывает наше правило ниже, а не mod_dir: тот
+# считает запрос http-шным (Apache стоит за nginx) и уводил бы сначала
+# на http://, а потом ещё раз на https://
+DirectorySlash Off
+
 # Apache на Beget не знает AVIF и отдаёт его без типа файла
 AddType image/avif .avif
 
@@ -18,7 +23,6 @@ AddType image/avif .avif
 
   # Единый вариант адреса — со слешем на конце (сборка сделана с trailingSlash)
   RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]{2,5}$
   RewriteCond %{REQUEST_URI} !/$
   # Адрес целиком, со схемой: Apache стоит за nginx и считает запрос
