@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "node --experimental-strip-types scripts/serve.ts",
     "lint": "eslint .",
-    "images": "node --experimental-strip-types scripts/images.ts"
+    "images": "node --experimental-strip-types scripts/images.ts",
+    "indexnow": "node --experimental-strip-types scripts/indexnow.ts"
   },
   "dependencies": {
     "next": "15.5.4",

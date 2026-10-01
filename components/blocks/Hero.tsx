@@ -24,16 +24,16 @@ export function Hero() {
 
             <h1 className="t-display mt-6 max-w-[16ch]">
               <span className="rise block" style={{ animationDelay: '80ms' }}>
-                Инженерная
+                Инженерные
               </span>
               <span className="rise block" style={{ animationDelay: '160ms' }}>
-                часть объекта
+                системы объекта
               </span>
               <span
                 className="rise block text-teal"
                 style={{ animationDelay: '240ms' }}
               >
-                целиком
+                полностью
               </span>
             </h1>
 

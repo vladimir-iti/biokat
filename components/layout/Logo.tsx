@@ -29,7 +29,7 @@ export function Logo({ className }: { className?: string }) {
       <LogoMark className="text-teal" />
       <span className="flex flex-col leading-none">
         <span className="bus-wordmark font-display text-xl font-semibold tracking-[-0.02em] [--bus-wordmark-idle:var(--color-ink)]">
-          БИОКАТ
+          ГК БИОКАТ
         </span>
         <span className="mt-1 t-label-sm text-steel">Инженерные системы</span>
       </span>

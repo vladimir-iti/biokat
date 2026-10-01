@@ -9,13 +9,14 @@ import { ServicesGrid } from '@/components/blocks/ServicesGrid';
 import { StatsBar } from '@/components/blocks/StatsBar';
 import { SwitchboardsBlock } from '@/components/blocks/SwitchboardsBlock';
 import { Section } from '@/components/ui/Section';
-import { formatMillions, plural } from '@/lib/format';
-import { totalAmount, totalContracts } from '@/lib/queries';
-import { buildMetadata } from '@/lib/seo';
+import { buildMetadata, websiteJsonLd } from '@/lib/seo';
 
 export const metadata: Metadata = buildMetadata({
   title: 'ГК «Биокат» — электромонтаж, пожарная безопасность, производство НКУ',
-  description: `Инженерные системы объектов под ключ: электроснабжение, освещение, пожарная безопасность, слаботочка, автоматика, производство низковольтных шкафов. ${totalContracts} ${plural(totalContracts, ['договор', 'договора', 'договоров'])} на ${formatMillions(totalAmount, 0)} млн ₽, допуски СРО на изыскания, проектирование и строительство.`,
+  // Около 160 символов — столько поисковики показывают в сниппете;
+  // название компании и все семь направлений — в начале
+  description:
+    'ГК «Биокат»: электроснабжение, освещение, пожарная безопасность, слаботочные системы, автоматика, производство НКУ и высоковольтные работы под ключ.',
   path: '/',
   bare: true,
 });
@@ -23,6 +24,10 @@ export const metadata: Metadata = buildMetadata({
 export default function HomePage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }}
+      />
       <Hero />
       <StatsBar />
 

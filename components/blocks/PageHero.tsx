@@ -16,7 +16,8 @@ export function PageHero({
   aside,
 }: {
   label?: string;
-  title: string;
+  /** Строка или разметка — когда строки заголовка нужно разбить вручную */
+  title: React.ReactNode;
   lead?: React.ReactNode;
   crumbs?: Crumb[];
   aside?: React.ReactNode;

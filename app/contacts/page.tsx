@@ -13,7 +13,7 @@ import { breadcrumbsJsonLd, buildMetadata } from '@/lib/seo';
 export const metadata: Metadata = buildMetadata({
   title: 'Контакты',
   description:
-    'Телефон +7 (495) 142-45-78, почта welcome@biokat-mail.ru. Офис — Москва, ул. Скобелевская, 22. Производство — Мытищинский район, Дмитровское шоссе, 36. Полные реквизиты ООО «ГК «Биокат».',
+    'Телефон +7 (495) 642-45-11, почта welcome@biokat-mail.ru. Офис — Москва, ул. Скобелевская, 22. Производство — Мытищинский район, Дмитровское шоссе, 36.',
   path: '/contacts/',
 });
 
@@ -50,7 +50,7 @@ export default function ContactsPage() {
 
       <PageHero
         label="Москва · Мытищинский район"
-        title="Расскажите о задаче"
+        title="Контакты ГК «Биокат»"
         lead="Отвечаем в рабочее время. Если вопрос срочный — звоните, это быстрее формы."
         crumbs={[{ title: 'Контакты' }]}
       />
@@ -117,7 +117,10 @@ export default function ContactsPage() {
                 </ul>
               </div>
 
-              <ContactForm phone={company.phone} phoneHref={company.phoneHref} />
+              <div>
+                <h2 className="t-h3 mb-6">Расскажите о задаче</h2>
+                <ContactForm phone={company.phone} phoneHref={company.phoneHref} />
+              </div>
             </div>
           </div>
         </Container>

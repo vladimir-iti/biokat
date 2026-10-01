@@ -8,6 +8,9 @@ export const dynamic = 'force-static';
 /** Собирается из content/ — ни одна страница не потеряется при добавлении объекта. */
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = company.origin;
+  // Дата сборки: сайт статический, и каждая выкладка — новая версия страниц.
+  // По lastmod поисковик решает, что пора обойти страницы заново.
+  const lastModified = new Date();
 
   const staticPages = [
     { path: '/', priority: 1 },
@@ -24,16 +27,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...staticPages.map((page) => ({
       url: `${base}${page.path}`,
+      lastModified,
       changeFrequency: 'monthly' as const,
       priority: page.priority,
     })),
     ...services.map((service) => ({
       url: `${base}/services/${service.slug}/`,
+      lastModified,
       changeFrequency: 'monthly' as const,
       priority: 0.8,
     })),
     ...projects.map((project) => ({
       url: `${base}/projects/${project.slug}/`,
+      lastModified,
       changeFrequency: 'yearly' as const,
       priority: 0.6,
     })),

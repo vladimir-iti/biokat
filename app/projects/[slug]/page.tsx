@@ -31,11 +31,18 @@ export async function generateMetadata({
   const project = projects.find((item) => item.slug === slug);
   if (!project) return {};
 
+  // Сниппет в выдаче — около 165 символов: берём столько пунктов работ,
+  // сколько помещается целиком, чтобы описание не обрывалось на полуслове
+  let description = `${project.title}. ${project.address}.`;
+  for (const work of project.works) {
+    const next = `${description} ${work}.`;
+    if (next.length > 165) break;
+    description = next;
+  }
+
   return buildMetadata({
     title: project.title,
-    description: `${project.title}. ${project.address}. ${project.works
-      .slice(0, 2)
-      .join('. ')}.`,
+    description,
     path: `/projects/${project.slug}/`,
   });
 }
